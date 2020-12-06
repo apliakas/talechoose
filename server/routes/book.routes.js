@@ -1,31 +1,20 @@
 const {Router, response, request} = require('express');
 const mongoose = require('mongoose');
+
+const Book = require('../models/Book.model')
+
 const router = new Router();
 
-const Book = require('../models/book.model')
-
-router.post('/book', (request, response) => {
-  const { bookName, bookContent, bookPath1, bookPath2} = request.body;
-
-  Book.create({
-    bookName, 
-    bookContent, 
-    bookPath1,
-    bookPath2,
-    owner: request.user._id,
-  })
-  .then((res) => {response.status(201).json(res)})
-  .catch((err) => {response.status(500).json(err)})
-});
+const throwError = (err) => {
+  response.status(500).json(err);
+};
 
 router.get('/books', (request, response) => {
   Book.find()
     .then((books) => { 
-      response.status(200).json(books)
+      response.status(200).json(books);
     })
-    .catch((err) => {
-      response.status(500).json(err)
-    });
+    .catch(throwError);
 });
 
 router.get('/book/:id', (request, response) => {
@@ -33,16 +22,26 @@ router.get('/book/:id', (request, response) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     response.status(400).json({ message: "Specified id is not valid" });
-    return
-  };
+    return;
+  }
 
   Book.findById(id)
     .then((book) => {
       response.status(200).json(book); 
     })
-    .catch((err) => {
-      response.status(500).json(err);
-    });
+    .catch(throwError);
+});
+
+router.post('/book', (request, response) => {
+  Book
+    .create({
+      ...request.body,
+      owner: request.user._id,
+    })
+    .then((result) => {
+      response.status(201).json(result);
+    })
+    .catch(throwError);
 });
 
 router.delete('/book/:id', (request, response) => {
@@ -50,18 +49,14 @@ router.delete('/book/:id', (request, response) => {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     response.status(400).json({ message: "Specified id is not valid" });
-    return
-  };
+    return;
+  }
 
   Book.findByIdAndRemove(id)
     .then(() => {
-      response.status(200).json({message: 'The book has been deleted'}); 
+      response.status(200).json({ message: 'The book has been deleted' }); 
     })
-    .catch((err) => {
-      response.status(500).json(err);
-    });
+    .catch(throwError);
 });
-
-
 
 module.exports = router;

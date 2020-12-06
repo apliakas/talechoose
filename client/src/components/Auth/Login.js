@@ -1,52 +1,59 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import AuthService from '../Services/auth.service';
 
-const initialState = { username: '', password: ''};
+import Auth from '../../services/auth.service';
+
+const initialState = { username: '', password: '' };
 
 const Login = (props) => {
-  const [loginForm, setLoginForm] = useState(initialState);
-  const [loginErrorMsg, setLoginErrorMsg] = useState('');
+  const [loginDetails, setLoginDetails] = useState(initialState);
+  const [loginErrorMessage, setLoginErrorMessage] = useState('');
   
-  const service = new AuthService();
-
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    const { username, password } = loginForm;
 
-    service
-      .login(username, password)
-      .then((response) => {
-        setLoginForm(initialState)
-        props.getUser(response);
+    Auth
+      .login(loginDetails)
+      .then((user) => {
+        setLoginDetails(initialState);
+        props.setUser(user);
       })
       .catch((error) => {
-        const { message } = error.response.data;
-        setLoginErrorMsg(message);
-        console.log(error);
-      })
+        setLoginErrorMessage(error.response.data.message);
+      });
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setLoginForm({ ...loginForm, [name]: value});
+
+    setLoginDetails({ ...loginDetails, [name]: value});
   };
 
   return (
     <div>
       <form onSubmit={handleFormSubmit} >
-        <label htmlFor='username' >Username:</label>
-        <input id='username' type='text' name='username' value={loginForm.username} onChange={handleChange} />
+        <label htmlFor='username'>Username:</label>
+        <input
+          id='username'
+          name='username'
+          value={loginDetails.username}
+          onChange={handleChange}
+        />
 
-        <label htmlFor='password' >Password :</label>
-        <input id='password' type='password' name='password' value={loginForm.password} onChange={handleChange} />
+        <label htmlFor='password'>Password:</label>
+        <input
+          id='password'
+          type='password'
+          name='password'
+          value={loginDetails.password}
+          onChange={handleChange}
+        />
 
         <button type='submit'>Login</button>
       </form>
 
-      {loginErrorMsg && <p style={{ color: 'red' }} >{loginErrorMsg}</p>}
+      {loginErrorMessage && <p style={{ color: 'red' }} >{loginErrorMessage}</p>}
     </div>
-  )
-}
+  );
+};
 
 export default Login;
