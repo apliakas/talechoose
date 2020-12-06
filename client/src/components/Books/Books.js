@@ -8,7 +8,9 @@ const Books = () => {
 
   const getAllBooks = () => {
     axios
-      .get('http://localhost:5000/books')
+      .get('http://localhost:5000/books', {
+        withCredentials: true,
+      })
       .then((books) => {
         console.log(books);
         setListOfBooks(books.data)

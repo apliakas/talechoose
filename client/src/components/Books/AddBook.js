@@ -21,8 +21,12 @@ const AddBookForm = (props) => {
     const { bookName, bookContent, bookPath1, bookPath2 } = bookForm;
 
     axios
-      .post('http://localhost:5000/book', { bookName, bookContent, bookPath1, bookPath2 })
-      .then(() => { setBookState(initialState) })
+      .post('http://localhost:5000/book',
+       { bookName, bookContent, bookPath1, bookPath2 }, 
+       { withCredentials: true,})
+      .then(() => { 
+        setBookState(initialState) 
+        props.history.push('/books')})
       .catch((error) => console.log(error));
   }
 

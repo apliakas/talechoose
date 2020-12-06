@@ -33,13 +33,23 @@ const BookDetails = (props) => {
       .catch((err) => console.log(err));
   }
 
+  const ownershipCheck = (project) => {
+    if ( props.loggedInUser && project.owner === props.loggedInUser._id) {
+      return(
+        <div>
+          <button onClick={() => deleteBook(details._id)}>
+            Delete book
+          </button>
+        </div>
+      )
+    }
+  };
+
   return (
     <div>
       <h1>Start reading here!</h1>
       <p>{details.bookName}</p>
-      <button onClick={() => deleteBook(details._id)}>
-            Delete book
-          </button>
+      {ownershipCheck(details)}
     </div>
   );
 };

@@ -12,6 +12,7 @@ router.post('/book', (request, response) => {
     bookContent, 
     bookPath1,
     bookPath2,
+    owner: request.user._id,
   })
   .then((res) => {response.status(201).json(res)})
   .catch((err) => {response.status(500).json(err)})

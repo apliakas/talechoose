@@ -9,6 +9,7 @@ const bookSchema = new Schema(
     bookContent: String,
     bookPath1: Number,
     bookPath2: Number,
+    owner: { type: Schema.Types.ObjectId, ref: "user" },
   },
 );
 

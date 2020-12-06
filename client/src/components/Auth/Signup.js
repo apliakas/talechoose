@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
-import AuthService from '../../components/Services/auth.service'
+import AuthService from '../Services/auth.service'
 
 const initialState = { username: '', password: ''}
 
 const Signup = (props) => {
   const [signupForm, setSignupForm] = useState(initialState)
-  const [errMessage, setErrMessage] = useState('')
+  const [signupErrorMsg, setSignupErrorMsg] = useState('')
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -27,8 +27,8 @@ const Signup = (props) => {
       })
       .catch((error) => {
         const { message } = error.response.data;
-        setErrMessage(message)
-        console.log(error.response)
+        setSignupErrorMsg(message)
+        console.log(error)
       })
   }
   
@@ -44,7 +44,7 @@ const Signup = (props) => {
         <button type='submit'>Submit</button>
       </form>
 
-      {errMessage && <p style={{ color: 'red' }} >{errMessage}</p>}
+      {signupErrorMsg && <p style={{ color: 'red' }} >{signupErrorMsg}</p>}
     </div>
   );
 };
