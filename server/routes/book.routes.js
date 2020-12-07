@@ -1,12 +1,12 @@
-const {Router, response, request} = require('express');
+const { Router } = require('express');
 const mongoose = require('mongoose');
 
 const Book = require('../models/Book.model')
 
 const router = new Router();
 
-const throwError = (err) => {
-  response.status(500).json(err);
+const throwError = (response) => (error) => {
+  response.status(500).json(error);
 };
 
 router.get('/books', (request, response) => {
@@ -14,7 +14,7 @@ router.get('/books', (request, response) => {
     .then((books) => { 
       response.status(200).json(books);
     })
-    .catch(throwError);
+    .catch(throwError(response));
 });
 
 router.get('/book/:id', (request, response) => {
@@ -27,9 +27,33 @@ router.get('/book/:id', (request, response) => {
 
   Book.findById(id)
     .then((book) => {
-      response.status(200).json(book); 
+      book.blocks = [book.blocks[0]];
+
+      response.status(200).json(book);
     })
-    .catch(throwError);
+    .catch(throwError(response));
+});
+
+router.get('/book/:bookId/:blockTitle', (request, response) => {
+  const { bookId, blockTitle } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(bookId)) {
+    response.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  if (!blockTitle) {
+    response.status(400).json({ message: "Specified title is not valid" });
+    return;
+  }
+
+  Book.findById(bookId)
+    .then((book) => {
+      const block = book.blocks.find((block) => block.title === blockTitle);
+
+      response.status(200).json(block); 
+    })
+    .catch(throwError(response));
 });
 
 router.post('/book', (request, response) => {
@@ -41,7 +65,7 @@ router.post('/book', (request, response) => {
     .then((result) => {
       response.status(201).json(result);
     })
-    .catch(throwError);
+    .catch(throwError(response));
 });
 
 router.delete('/book/:id', (request, response) => {
@@ -56,7 +80,7 @@ router.delete('/book/:id', (request, response) => {
     .then(() => {
       response.status(200).json({ message: 'The book has been deleted' }); 
     })
-    .catch(throwError);
+    .catch(throwError(response));
 });
 
 module.exports = router;

@@ -15,8 +15,12 @@ books.getById = (id) => {
   return request.get(`/book/${id}`).then((response) => response.data);
 };
 
+books.getBlockByTitle = (id, title) => {
+  return request.get(`/book/${id}/${title}`).then((response) => response.data);
+};
+
 books.create = (bookDetails) => {
-  return request.post('/book/', bookDetails).then((response) => response.data);
+  return request.post('/book', bookDetails).then((response) => response.data);
 };
 
 books.deleteById = (id) => {

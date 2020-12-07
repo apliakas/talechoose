@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 
 import Books from '../../services/books.service';
 
-const newBlock = () => ({ id: +new Date() });
+const newDecision = () => ({
+  id: +new Date(),
+  option: '',
+  toBlock: '',
+});
+
+const newBlock = () => ({
+  id: +new Date(),
+  title: '',
+  content: '',
+  decisions: [],
+});
 
 const initialState = {
   title: '',
@@ -36,14 +47,45 @@ const CreateBook = (props) => {
     setBookDetails({ ...bookDetails, blocks: modifiedBlocks });
   };
 
+  const handleDecisionChange = (block, decision) => (event) => {
+    const { name, value } = event.target;
+
+    const { blocks } = bookDetails;
+
+    const decisionIndex = block.decisions.indexOf(decision);
+    const totalDecisions = block.decisions.length;
+
+    const modifiedDecision = { ...decision, [name]: value };
+
+    const modifiedDecisions = [
+      ...block.decisions.slice(0, decisionIndex),
+      modifiedDecision,
+      ...block.decisions.slice(decisionIndex + 1, totalDecisions),
+    ];
+
+    const blockIndex = blocks.indexOf(block);
+    const totalBlocks = blocks.length;
+    
+    const modifiedBlock = { ...block, decisions: modifiedDecisions };
+    
+    const modifiedBlocks = [
+      ...blocks.slice(0, blockIndex),
+      modifiedBlock,
+      ...blocks.slice(blockIndex + 1, totalBlocks),
+    ];
+    
+    setBookDetails({ ...bookDetails, blocks: modifiedBlocks });
+  }
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
-  
+
+    
     Books.create(bookDetails)
       .then((book) => { 
         setBookDetails(initialState);
 
-        props.history.push(`/book/${book._id}`);
+        props.history.push(`/book/read/${book._id}`);
       })
       .catch((error) => console.log(error));
   };
@@ -52,6 +94,25 @@ const CreateBook = (props) => {
     const blocks = [...bookDetails.blocks, newBlock()];
 
     setBookDetails({ ...bookDetails, blocks });
+  };
+
+  const addDecision = (block) => {
+    const { blocks } = bookDetails;
+
+    const decisions = [...block.decisions, newDecision()];
+
+    const blockIndex = blocks.indexOf(block);
+    const totalBlocks = blocks.length;
+
+    const modifiedBlock = { ...block, decisions };
+    
+    const modifiedBlocks = [
+      ...blocks.slice(0, blockIndex),
+      modifiedBlock,
+      ...blocks.slice(blockIndex + 1, totalBlocks),
+    ];
+
+    setBookDetails({ ...bookDetails, blocks: modifiedBlocks });
   };
 
   return (
@@ -70,9 +131,9 @@ const CreateBook = (props) => {
         <br/>
         {bookDetails.blocks.map((block) => (
           <div key={block.id}>
-            <label htmlFor='blockTitle'>Title of your block:</label>
+            <label htmlFor={block.id}>Title of your block:</label>
             <input
-              id='blockTitle'
+              id={block.id}
               name='title'
               value={block.title}
               onChange={handleBlockChange(block)}
@@ -87,9 +148,20 @@ const CreateBook = (props) => {
               value={block.content}
               onChange={handleBlockChange(block)}
             />
+            <br/>
+            {block.decisions.map((decision) => (
+              <div key={decision.id}>
+                <label>Option:</label>
+                <input name='option' onChange={handleDecisionChange(block, decision)}></input>
+
+                <label>Title of the block where it leads:</label>
+                <input name='toBlock' onChange={handleDecisionChange(block, decision)}></input>
+              </div>
+            ))}
+            <button type="button" onClick={() => addDecision(block)}>Add a decision</button>
           </div>
         ))}
-        <button onClick={addBlock}>Add new block</button>
+        <button type="button" onClick={addBlock}>Add new block</button>
         <br/>
         <br/>
         <button type='submit'>Submit</button>

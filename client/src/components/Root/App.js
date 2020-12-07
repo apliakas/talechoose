@@ -37,14 +37,14 @@ function App() {
       </Switch>
       { user ? (
         <Switch>
-          <Route exact path='/book/create' component={CreateBook} />
-          <Route exact path='/book/:id' render={({match, history}) => <BookDetails history={history} match={match} user={user}/>} />
+          <Route path='/book/create' exact component={CreateBook} />
+          <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user}/>} />
         </Switch>
       ) : (
         <Switch>
           <Route path='/signup' render={() => <Signup setUser={setUser} />} />
           <Route path='/login' render={() => <Login setUser={setUser} />} />
-          <Route path='/book/:id' exact component={BookDetails} />
+          <Route path='/book/read/:id' exact component={BookDetails} />
         </Switch>
       ) }
     </div>
