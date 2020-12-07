@@ -30,7 +30,12 @@ const BookDetails = (props) => {
   return (
     <div>
       <h1>Start reading here!</h1>
-      <p>{book.bookName}</p>
+      <p>{book.title}</p>
+      {book.blocks?.map((block) => (
+        <div>
+          <p>{block.content}</p>
+        </div>
+      ))}
       { props.user && book.owner === props.user._id && (
         <button onClick={() => deleteBook(book._id)}>
           Delete book

@@ -1,20 +1,13 @@
 const { Schema, model } = require("mongoose");
 
-const Book = new Schema({
-  title: {
+const Decision = new Schema({
+  option: {
     type: String,
-    required: [true, "Title is required"]
-  }, 
-  description: String,
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: "user"
+    required: [true, "Decision option is required"]
   },
-  information: [Object],
-  appendix: [Object],
-  blocks: { 
-    type: [Block],
-    required: [true, "A book require at least one block."]
+  toBlock: {
+    type: String,
+    required: [true, "Decision toBlock is required"]
   },
 });
 
@@ -30,14 +23,21 @@ const Block = new Schema({
   decisions: [Decision],
 });
 
-const Decision = new Schema({
-  option: {
+const Book = new Schema({
+  title: {
     type: String,
-    required: [true, "Decision option is required"]
+    required: [true, "Title is required"]
+  }, 
+  description: String,
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "user"
   },
-  toBlock: {
-    type: String,
-    required: [true, "Decision toBlock is required"]
+  information: [Object],
+  appendix: [Object],
+  blocks: { 
+    type: [Block],
+    required: [true, "A book require at least one block."]
   },
 });
 

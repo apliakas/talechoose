@@ -5,25 +5,22 @@ const request = axios.create({
   withCredentials: true,
 });
 
-const signup = (signupDetails) => {
+const auth = {};
+
+auth.signup = (signupDetails) => {
   return request.post('/signup', signupDetails).then((response) => response.data);
 };
 
-const login = (loginDetails) => {
+auth.login = (loginDetails) => {
   return request.post('/login', loginDetails).then((response) => response.data);
 };
 
-const logout = () => {
+auth.logout = () => {
   return request.post('/logout', {}).then((response) => response.data);
 };
 
-const isAuthenticated = () => {
+auth.isAuthenticated = () => {
   return request.get('/loggedin').then((response) => response.data);
 };
 
-export default {
-  signup,
-  login,
-  logout,
-  isAuthenticated,
-};
+export default auth;

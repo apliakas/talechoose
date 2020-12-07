@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 
@@ -22,6 +22,7 @@ const Navbar = (props) => {
       <h3><Link to='/books'>Books</Link></h3>
       { props.user && <h3><Link to='/book/create'>Create a book</Link></h3> }
       { props.user && <button onClick={ logoutUser }>Logout</button> }
+      <hr/>
     </nav>
   );
 };

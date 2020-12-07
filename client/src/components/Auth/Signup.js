@@ -18,7 +18,7 @@ const Signup = (props) => {
         props.setUser(user);
       })
       .catch((error) => {
-        setSignupErrorMessage(error.response.data.message);
+        setSignupErrorMessage(error?.response?.data?.message || 'There has been an error, try again later.');
       });
   };
 

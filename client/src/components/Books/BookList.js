@@ -21,7 +21,7 @@ const BookList = () => {
       {books.map((book) => (
         <div key={book._id}>
           <Link to={`/book/${book._id}`}>
-            <h1>{book.bookName}</h1>
+            <h1>{book.title}</h1>
           </Link>
         </div>
       ))}

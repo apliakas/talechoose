@@ -12,22 +12,20 @@ import BookDetails from '../Books/BookDetails';
 import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
 
-const fetchUser = (setUser) => {
+const isUserAuthenticated = (setUser) => {
   Auth
     .isAuthenticated()
     .then((response) => {
       setUser(response);
     })
-    .catch((err) => {
-      setUser(false)
-    })
+    .catch((err) => console.log(err));
 };
 
 function App() {
   const [user, setUser] = useState(null);
 
   if (user === null) {
-    fetchUser(setUser);
+    isUserAuthenticated(setUser);
   }
 
   return (

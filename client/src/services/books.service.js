@@ -5,25 +5,22 @@ const request = axios.create({
   withCredentials: true,
 });
 
-const getAll = () => {
+const books = {};
+
+books.getAll = () => {
   return request.get('/books').then((response) => response.data);
 };
 
-const getById = (id) => {
+books.getById = (id) => {
   return request.get(`/book/${id}`).then((response) => response.data);
 };
 
-const create = (bookDetails) => {
+books.create = (bookDetails) => {
   return request.post('/book/', bookDetails).then((response) => response.data);
 };
 
-const deleteById = (id) => {
+books.deleteById = (id) => {
   return request.delete(`/book/${id}`).then((response) => response.data);
 };
 
-export default {
-  getAll,
-  getById,
-  create,
-  deleteById,
-};
+export default books;

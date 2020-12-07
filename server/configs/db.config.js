@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose
-  .connect('mongodb://localhost/express-basic-auth', {
+  .connect('mongodb://localhost/adventure', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
