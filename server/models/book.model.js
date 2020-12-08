@@ -36,8 +36,8 @@ const Book = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user"
   },
-  information: [Object],
-  appendix: [Object],
+  information: Object,
+  appendix: Object,
   blocks: { 
     type: [Block],
     required: [true, "A book require at least one block."]
