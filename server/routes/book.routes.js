@@ -56,7 +56,30 @@ router.get('/book/:bookId/:blockTitle', (request, response) => {
     .catch(throwError(response));
 });
 
+router.get('/books/user/:userId', (request, response) => {
+  const { userId } = request.params;
+
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    response.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  Book.find()
+    .then((books) => { 
+      const userBooks = books.filter((book) => book.owner == userId);
+      
+      response.status(200).json(userBooks);
+    })
+    .catch(throwError(response));
+})
+
 router.post('/book', (request, response) => {
+  const book = request.body;
+
+  book.blocks = book.blocks.map((block) => {
+    return {...block, content: block.content.replace('\n', '<br/>')};
+  });
+
   Book
     .create({
       ...request.body,

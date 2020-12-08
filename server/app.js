@@ -3,9 +3,6 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
-const favicon = require('serve-favicon');
-const hbs = require('hbs');
-const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
 const cors         = require('cors');
@@ -26,7 +23,7 @@ require('./configs/passport.config');
 
 // Middleware Setup
 app.use(logger('dev'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "1mb"}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 

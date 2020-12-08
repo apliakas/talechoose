@@ -20,7 +20,10 @@ const Block = new Schema({
     type: String,
     required: [true, "Block content is required"]
   },
-  decisions: [Decision],
+  decisions: {
+    type: [Decision],
+    required: false,
+  },
 });
 
 const Book = new Schema({
