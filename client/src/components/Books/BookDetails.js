@@ -29,35 +29,51 @@ const BookDetails = (props) => {
 
   useEffect(getBook, [props.match.params]);
 
-  const deleteBook = (id) => {
-    Books 
-      .deleteById(id)
-      .then(() => {
-        props.history.push('/books');
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
     <div>
       <h1>Start reading here!</h1>
-      <p>{book.title}</p>
-      {book.blocks?.map((block, index) => (
-        <div>
-          <p>{block.content}</p>
-          {(book.blocks.length === index + 1) && block.decisions?.map((decision) => (
-            <div>
-              <button type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
+      <h3>{book.title}</h3>
+      {book.information && Object.entries(book.information).length && (
+        <details open>
+          <summary>Information</summary>
+          {Object.entries(book.information).map(([key, value]) => (
+            <div key={key}>
+              <strong>{key}:</strong> {value}
             </div>
           ))}
-        </div>
+        </details>
+      )}
+      {book.blocks?.map((block, index) => (
+        index === book.blocks.length -1 ?
+        (
+          <div key={`${block._id}-${index}`}>
+            <p dangerouslySetInnerHTML={{__html: block.content}}></p>
+            {!block.decisions?.length && (<h3>The End</h3>)}
+            {(book.blocks.length === index + 1) && block.decisions?.map((decision) => (
+              <div key={`${decision._id}-${index}`}>
+                <button type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
+              </div>
+            ))}
+          </div>
+        )
+        :
+        (
+          <details>
+            <summary>{block.title}</summary>
+            <p>{block.content}</p>
+          </details>
+        )
       ))}
-      <hr/>
-      { props.user && book.owner === props.user._id && (
-        <button onClick={() => deleteBook(book._id)}>
-          Delete book
-        </button>
-      ) }
+      {book.appendix && Object.entries(book.appendix).length && (
+        <details>
+          <summary>Appendix</summary>
+          {Object.entries(book.appendix).map(([key, value]) => (
+            <div key={key}>
+              <strong>{key}:</strong> {value}
+            </div>
+          ))}
+        </details>
+      )}
     </div>
   );
 };

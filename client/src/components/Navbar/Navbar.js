@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import Auth from '../../services/auth.service';
 
+import './Navbar.css';
+
 const Navbar = (props) => {
   const logoutUser = () => {
     Auth
@@ -14,15 +16,43 @@ const Navbar = (props) => {
   };
 
   return (
-    <nav>
-      { !props.user && <h3><Link to='/signup'>Signup</Link></h3> }
-      { !props.user && <h3><Link to='/login'>Login</Link></h3> }
-      
-      { props.user && <h3>Welcome, { props.user.username }</h3> }
-      <h3><Link to='/books'>Books</Link></h3>
-      { props.user && <h3><Link to='/book/create'>Create a book</Link></h3> }
-      { props.user && <button onClick={ logoutUser }>Logout</button> }
-      <hr/>
+    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div id="navbarBasicExample" className="navbar-menu">
+        <div className="navbar-start">
+          <div className="navbar-item">
+            SomeText
+          </div>
+          <Link to='/books' className="navbar-item" >All books</Link>
+          { props.user && (
+            <>
+              <Link to='/user/books' className="navbar-item" >My books</Link> 
+              <Link to='/book/create' className="navbar-item" >Create a book</Link>
+            </>
+          )}
+        </div>
+
+        <div className="navbar-end">
+          <div className="navbar-item">
+            <div className="buttons">
+              { !props.user && (
+                <>
+                  <Link to='/signup' className="button is-primary">
+                    <strong>Sign up</strong>
+                  </Link>
+                  <Link to='/login' className="button is-light">
+                    <strong>Log in</strong>
+                  </Link>
+                </>
+              ) }
+              { props.user && (                
+                <button onClick={ logoutUser } className="button is-light">
+                  <strong>Sign out</strong>
+                </button>
+              ) }
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };

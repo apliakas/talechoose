@@ -15,6 +15,7 @@ const Signup = (props) => {
       .signup(signupDetails)
       .then((user) => {
         setSignupDetails(initialState);
+        props.history.push(`/books`);
         props.setUser(user);
       })
       .catch((error) => {

@@ -4,20 +4,19 @@ import Books from '../../services/books.service';
 
 const newDecision = () => ({
   id: +new Date(),
-  option: '',
+  option: 'Continue',
   toBlock: '',
 });
 
-const newBlock = () => ({
+const newBlock = (index) => ({
   id: +new Date(),
-  title: '',
+  title: `Block ${index}`,
   content: '',
-  decisions: [],
 });
 
 const initialState = {
   title: '',
-  blocks: [newBlock()],
+  blocks: [newBlock(1)],
 };
 
 const CreateBook = (props) => {
@@ -79,7 +78,6 @@ const CreateBook = (props) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-
     
     Books.create(bookDetails)
       .then((book) => { 
@@ -91,15 +89,21 @@ const CreateBook = (props) => {
   };
 
   const addBlock = () => {
-    const blocks = [...bookDetails.blocks, newBlock()];
+    const blocks = [...bookDetails.blocks, newBlock(bookDetails.blocks.length + 1)];
 
     setBookDetails({ ...bookDetails, blocks });
   };
 
+  const removeBlock = (block) => { 
+    const blocks = bookDetails.blocks.filter((item) => item.id !== block.id);
+
+    setBookDetails({ ...bookDetails, blocks });
+  }
+
   const addDecision = (block) => {
     const { blocks } = bookDetails;
 
-    const decisions = [...block.decisions, newDecision()];
+    const decisions = [...(block.decisions || []), newDecision()];
 
     const blockIndex = blocks.indexOf(block);
     const totalBlocks = blocks.length;
@@ -115,6 +119,25 @@ const CreateBook = (props) => {
     setBookDetails({ ...bookDetails, blocks: modifiedBlocks });
   };
 
+  const removeLastDecision = (block, id) => {
+    const { blocks } = bookDetails;
+
+    const decisions = block.decisions.filter((decision) => decision.id !== id);
+
+    const blockIndex = blocks.indexOf(block);
+    const totalBlocks = blocks.length;
+
+    const modifiedBlock = { ...block, decisions };
+    
+    const modifiedBlocks = [
+      ...blocks.slice(0, blockIndex),
+      modifiedBlock,
+      ...blocks.slice(blockIndex + 1, totalBlocks),
+    ];
+
+    setBookDetails({ ...bookDetails, blocks: modifiedBlocks });
+  }
+
   return (
     <div>
       <form onSubmit={handleFormSubmit}>
@@ -125,11 +148,12 @@ const CreateBook = (props) => {
             name='title'
             value={bookDetails.title}
             onChange={handleBookChange}
+            required
           />
         </div>
         <br/>
         <br/>
-        {bookDetails.blocks.map((block) => (
+        {bookDetails.blocks.map((block, index) => (
           <div key={block.id}>
             <label htmlFor={block.id}>Title of your block:</label>
             <input
@@ -137,6 +161,7 @@ const CreateBook = (props) => {
               name='title'
               value={block.title}
               onChange={handleBlockChange(block)}
+              required
             />
             <br/>
             <label htmlFor='blockContent'>Content of your block:</label>
@@ -147,15 +172,23 @@ const CreateBook = (props) => {
               name='content'
               value={block.content}
               onChange={handleBlockChange(block)}
+              required
             />
+            <button onClick={() => removeBlock(block)}>Delete block</button>
             <br/>
-            {block.decisions.map((decision) => (
+            {block.decisions?.map((decision) => (
               <div key={decision.id}>
                 <label>Option:</label>
-                <input name='option' onChange={handleDecisionChange(block, decision)}></input>
+                <input name='option' onChange={handleDecisionChange(block, decision)} value={decision.option} required></input>
 
                 <label>Title of the block where it leads:</label>
-                <input name='toBlock' onChange={handleDecisionChange(block, decision)}></input>
+                <select name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
+                  <option disabled value={''}>Select a block</option>
+                  {bookDetails.blocks.map((item) => (
+                    <option key={item.id} value={item.title}>{item.title}</option>
+                  ))}
+                </select>
+                <button type="button" onClick={() => removeLastDecision(block, decision.id)}>Detele decision</button>
               </div>
             ))}
             <button type="button" onClick={() => addDecision(block)}>Add a decision</button>

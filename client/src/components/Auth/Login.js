@@ -15,10 +15,11 @@ const Login = (props) => {
       .login(loginDetails)
       .then((user) => {
         setLoginDetails(initialState);
+        props.history.push(`/books`);
         props.setUser(user);
       })
       .catch((error) => {
-        setLoginErrorMessage(error.response.data.message);
+        setLoginErrorMessage(error?.response?.data?.message);
       });
   };
 
