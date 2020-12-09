@@ -30,29 +30,42 @@ const Login = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit} >
-        <label htmlFor='username'>Username:</label>
-        <input
-          id='username'
-          name='username'
-          value={loginDetails.username}
-          onChange={handleChange}
-        />
-
-        <label htmlFor='password'>Password:</label>
-        <input
-          id='password'
-          type='password'
-          name='password'
-          value={loginDetails.password}
-          onChange={handleChange}
-        />
-
-        <button type='submit'>Login</button>
-      </form>
-
-      {loginErrorMessage && <p style={{ color: 'red' }} >{loginErrorMessage}</p>}
+    <div className="columns is-centered mt-6">
+      <div className="column is-one-third">
+        <form onSubmit={handleFormSubmit}>
+          <h1 className="mb-4 is-size-1 has-text-centered">Log in</h1>
+          <div className="field">
+            <label className="label">Username</label>
+            <div className="control">
+              <input
+                className="input"
+                id='username'
+                name='username'
+                placeholder='Username'
+                value={loginDetails.username}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control">
+              <input
+                className="input"
+                type='password'
+                name='password'
+                placeholder="Password"
+                value={loginDetails.password}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="control has-text-centered">
+            <button className="button is-primary">Log in</button>
+          </div>
+        </form>
+        {loginErrorMessage && <p style={{ color: 'red' }} >{loginErrorMessage}</p>}
+      </div>
     </div>
   );
 };

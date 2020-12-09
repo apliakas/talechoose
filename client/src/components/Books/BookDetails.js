@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import Books from '../../services/books.service';
 
+import './BookDetails.css';
+
 const BookDetails = (props) => {
   const [book, setBook] = useState({});
 
@@ -30,12 +32,11 @@ const BookDetails = (props) => {
   useEffect(getBook, [props.match.params]);
 
   return (
-    <div>
-      <h1>Start reading here!</h1>
-      <h3>{book.title}</h3>
+    <div className="book-container">
+      <h3 className='has-text-centered is-size-1'>{book.title}</h3>
       {book.information && Object.entries(book.information).length && (
-        <details open>
-          <summary>Information</summary>
+        <details  className='help mb-4' open>
+          <summary className='pl-2 is-size-6'>About this book</summary>
           {Object.entries(book.information).map(([key, value]) => (
             <div key={key}>
               <strong>{key}:</strong> {value}
@@ -46,27 +47,25 @@ const BookDetails = (props) => {
       {book.blocks?.map((block, index) => (
         index === book.blocks.length -1 ?
         (
-          <div key={`${block._id}-${index}`}>
-            <p dangerouslySetInnerHTML={{__html: block.content}}></p>
+          <div className='has-text-centered block' key={`${block._id}-${index}`}>
+            <p className='has-text-justified my-5' dangerouslySetInnerHTML={{__html: block.content}}></p>
             {!block.decisions?.length && (<h3>The End</h3>)}
             {(book.blocks.length === index + 1) && block.decisions?.map((decision) => (
-              <div key={`${decision._id}-${index}`}>
-                <button type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
-              </div>
+              <button className='button is-success is-light m-3' key={`${decision._id}-${index}`} type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
             ))}
           </div>
         )
         :
         (
-          <details>
-            <summary>{block.title}</summary>
-            <p>{block.content}</p>
+          <details className="my-2 has-background-light"> 
+            <summary className='pl-2'>{block.title}</summary>
+            <p className='has-text-justified px-4 pb-4 pt-2' dangerouslySetInnerHTML={{__html: block.content}}></p>
           </details>
         )
       ))}
       {book.appendix && Object.entries(book.appendix).length && (
-        <details>
-          <summary>Appendix</summary>
+        <details className='help my-6'>
+          <summary className='pl-2 is-size-6' >Appendix</summary>
           {Object.entries(book.appendix).map(([key, value]) => (
             <div key={key}>
               <strong>{key}:</strong> {value}

@@ -32,22 +32,26 @@ function App() {
   return (
     <div className="App">
       <Navbar user={user} setUser={setUser} />
-      <Switch>
-        <Route path='/books' component={BookList} />
-      </Switch>
-      { user ? (
+      <div className='container p-4'>
         <Switch>
-          <Route path='/book/create' exact component={CreateBook} />
-          <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user}/>} />
-          <Route path='/user/books' render={() => <UserBooks user={user}/>} />
+          
         </Switch>
-      ) : (
-        <Switch>
-          <Route path='/signup' render={({ history}) => <Signup history={history} setUser={setUser} />} />
-          <Route path='/login' render={({ history}) => <Login history={history} setUser={setUser} />} />
-          <Route path='/book/read/:id' exact component={BookDetails} />
-        </Switch>
-      ) }
+        { user ? (
+          <Switch>
+            <Route path='/books' render={() => <BookList user={user} />} />
+            <Route path='/book/create' exact component={CreateBook} />
+            <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user}/>} />
+            <Route path='/user/books' render={() => <UserBooks user={user}/>} />
+          </Switch>
+        ) : (
+          <Switch>
+            <Route path='/books' component={BookList} />
+            <Route path='/signup' render={({ history}) => <Signup history={history} setUser={setUser} />} />
+            <Route path='/login' render={({ history}) => <Login history={history} setUser={setUser} />} />
+            <Route path='/book/read/:id' exact component={BookDetails} />
+          </Switch>
+        ) }
+      </div>
     </div>
   );
 }

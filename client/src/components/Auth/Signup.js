@@ -30,30 +30,45 @@ const Signup = (props) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit} >
-        <label htmlFor='username'>Username:</label>
-        <input
-          id='username'
-          name='username'
-          value={signupDetails.username}
-          onChange={handleChange}
-        />
-
-        <label htmlFor='password'>Password:</label>
-        <input
-          id='password'
-          type='password'
-          name='password'
-          value={signupDetails.password}
-          onChange={handleChange}
-        />
-
-        <button type='submit'>Signup</button>
-      </form>
-
-      {signupErrorMessage && <p style={{ color: 'red' }} >{signupErrorMessage}</p>}
+    <>
+    <div className="columns is-centered mt-6">
+      <div className="column is-one-third">
+        <form onSubmit={handleFormSubmit}>
+          <h1 className="mb-4 is-size-1 has-text-centered">Sign up</h1>
+          <div className="field">
+            <label class="label">Username</label>
+            <div class="control">
+              <input
+                className="input"
+                id='username'
+                name='username'
+                placeholder='Username'
+                value={signupDetails.username}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label class="label">Password</label>
+            <div class="control">
+              <input
+                className="input"
+                type='password'
+                name='password'
+                placeholder="Password"
+                value={signupDetails.password}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div class="control has-text-centered">
+            <button class="button is-primary">Sign up</button>
+          </div>
+        </form>
+        {signupErrorMessage && <p style={{ color: 'red' }} >{signupErrorMessage}</p>}
+      </div>
     </div>
+    </>
   );
 };
 

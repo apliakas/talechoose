@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import Books from '../../services/books.service';
 
+import './CreateBook.css';
+
 const newDecision = () => ({
   id: +new Date(),
   option: 'Continue',
@@ -139,33 +141,47 @@ const CreateBook = (props) => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit}>
+    <div className='columns is-centered mt-6'>
+      <form className='column is-three-fifths' onSubmit={handleFormSubmit}>
         <div>
           <label htmlFor='title'>Title of your book:</label>
-          <input
-            id='title'
-            name='title'
-            value={bookDetails.title}
-            onChange={handleBookChange}
-            required
-          />
+          <div className='control'>
+            <input
+              className='input'
+              placeholder='Book title '
+              id='title'
+              name='title'
+              value={bookDetails.title}
+              onChange={handleBookChange}
+              required
+            />
+          </div>
+          
         </div>
         <br/>
         <br/>
         {bookDetails.blocks.map((block, index) => (
           <div key={block.id}>
             <label htmlFor={block.id}>Title of your block:</label>
-            <input
-              id={block.id}
-              name='title'
-              value={block.title}
-              onChange={handleBlockChange(block)}
-              required
-            />
+            <div className='control'>
+              <input
+                className='input'
+                id={block.id}
+                name='title'
+                value={block.title}
+                onChange={handleBlockChange(block)}
+                required
+              />
+            </div>
+            
             <br/>
-            <label htmlFor='blockContent'>Content of your block:</label>
+            <div className='is-flex is-justify-content-space-between'>
+              <label htmlFor='blockContent'>Content of your block:</label>
+              {bookDetails.blocks.length > 1 ? <button  className='button is-small is-danger is-light ' onClick={() => removeBlock(block)}>Delete block</button> : <></>}
+            </div>
+            
             <textarea
+              className='textarea'
               id='blockContent'
               rows="4"
               cols="50"
@@ -174,21 +190,20 @@ const CreateBook = (props) => {
               onChange={handleBlockChange(block)}
               required
             />
-            <button onClick={() => removeBlock(block)}>Delete block</button>
             <br/>
             {block.decisions?.map((decision) => (
-              <div key={decision.id}>
-                <label>Option:</label>
-                <input name='option' onChange={handleDecisionChange(block, decision)} value={decision.option} required></input>
+              <div className='columns' key={decision.id}>
+                <label className='column is-1'>Option:</label>
+                <input className='column is-3' name='option' onChange={handleDecisionChange(block, decision)} value={decision.option} required></input>
 
-                <label>Title of the block where it leads:</label>
-                <select name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
+                <label className='column is-4'>Title of the block where it leads:</label>
+                <select className='column is-2' name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
                   <option disabled value={''}>Select a block</option>
                   {bookDetails.blocks.map((item) => (
                     <option key={item.id} value={item.title}>{item.title}</option>
                   ))}
                 </select>
-                <button type="button" onClick={() => removeLastDecision(block, decision.id)}>Detele decision</button>
+                <button className='button is-small is-danger is-light' type="button" onClick={() => removeLastDecision(block, decision.id)}>Detele decision</button>
               </div>
             ))}
             <button type="button" onClick={() => addDecision(block)}>Add a decision</button>
