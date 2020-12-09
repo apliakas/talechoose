@@ -1,0 +1,9 @@
+{
+  "name": "application",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm install --prefix client && npm install --prefix server && npm run build --prefix client",
+    "start": "cd server && npm start"
+  }
+}

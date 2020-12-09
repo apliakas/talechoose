@@ -44,10 +44,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.use('/api', require('./routes/auth.routes'));
+app.use('/api', require('./routes/book.routes'));
 
-app.use('/', require('./routes/index.routes'));
-app.use('/', require('./routes/auth.routes'));
-app.use('/', require('./routes/book.routes'));
+app.use('/static', express.static(path.join(__dirname, '../client/build/static')));
+app.use('/', express.static(path.join(__dirname, '../client/build/')));
+app.get('*', function(request, response) {
+  response.sendFile('index.html', {root: path.join(__dirname, '../client/build/')});
+});
 
 module.exports = app;
