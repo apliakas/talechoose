@@ -19,9 +19,9 @@ const Navbar = (props) => {
     <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <div className="navbar-item">
+          <Link to='/' className="navbar-item">
             SomeText
-          </div>
+          </Link>
           <Link to='/books' className="navbar-item" >All books</Link>
           { props.user && (
             <>

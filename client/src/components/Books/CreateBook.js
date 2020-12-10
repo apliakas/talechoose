@@ -141,79 +141,83 @@ const CreateBook = (props) => {
   }
 
   return (
-    <div className='columns is-centered mt-6'>
-      <form className='column is-three-fifths' onSubmit={handleFormSubmit}>
-        <div>
-          <label htmlFor='title'>Title of your book:</label>
-          <div className='control'>
-            <input
-              className='input'
-              placeholder='Book title '
-              id='title'
-              name='title'
-              value={bookDetails.title}
-              onChange={handleBookChange}
-              required
-            />
-          </div>
-          
-        </div>
-        <br/>
-        <br/>
-        {bookDetails.blocks.map((block, index) => (
-          <div key={block.id}>
-            <label htmlFor={block.id}>Title of your block:</label>
+    <div>
+      <h1 className='is-size-3 has-text-centered mt-6'>Your adventure starts here...</h1>
+      <div className='columns is-centered mt-3'>
+        <form className='column is-three-fifths' onSubmit={handleFormSubmit}>
+          <div>
+            <label htmlFor='title'>Title of your book:</label>
             <div className='control'>
               <input
                 className='input'
-                id={block.id}
+                placeholder='Book title '
+                id='title'
                 name='title'
-                value={block.title}
-                onChange={handleBlockChange(block)}
+                value={bookDetails.title}
+                onChange={handleBookChange}
                 required
               />
             </div>
             
-            <br/>
-            <div className='is-flex is-justify-content-space-between'>
-              <label htmlFor='blockContent'>Content of your block:</label>
-              {bookDetails.blocks.length > 1 ? <button  className='button is-small is-danger is-light ' onClick={() => removeBlock(block)}>Delete block</button> : <></>}
-            </div>
-            
-            <textarea
-              className='textarea'
-              id='blockContent'
-              rows="4"
-              cols="50"
-              name='content'
-              value={block.content}
-              onChange={handleBlockChange(block)}
-              required
-            />
-            <br/>
-            {block.decisions?.map((decision) => (
-              <div className='columns' key={decision.id}>
-                <label className='column is-1'>Option:</label>
-                <input className='column is-3' name='option' onChange={handleDecisionChange(block, decision)} value={decision.option} required></input>
-
-                <label className='column is-4'>Title of the block where it leads:</label>
-                <select className='column is-2' name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
-                  <option disabled value={''}>Select a block</option>
-                  {bookDetails.blocks.map((item) => (
-                    <option key={item.id} value={item.title}>{item.title}</option>
-                  ))}
-                </select>
-                <button className='button is-small is-danger is-light' type="button" onClick={() => removeLastDecision(block, decision.id)}>Detele decision</button>
-              </div>
-            ))}
-            <button type="button" onClick={() => addDecision(block)}>Add a decision</button>
           </div>
-        ))}
-        <button type="button" onClick={addBlock}>Add new block</button>
-        <br/>
-        <br/>
-        <button type='submit'>Submit</button>
-      </form>
+          {bookDetails.blocks.map((block, index) => (
+            <div className='has-background-light p-2 my-4' key={block.id}>
+              <div className='is-flex is-justify-content-space-between'>
+                <label htmlFor={block.id}>Title of your block:</label>
+                {bookDetails.blocks.length > 1 ? <button  className='button is-small is-danger is-light ' onClick={() => removeBlock(block)}>Delete block</button> : <></>}
+              </div>
+              
+              <div className='control mb-2'>
+                <input
+                  className='input'
+                  id={block.id}
+                  name='title'
+                  value={block.title}
+                  onChange={handleBlockChange(block)}
+                  required
+                />
+              </div>
+              <label htmlFor='blockContent'>Content of your block:</label>
+              
+              <textarea
+                className='textarea mb-2'
+                id='blockContent'
+                rows="4"
+                cols="50"
+                name='content'
+                value={block.content}
+                onChange={handleBlockChange(block)}
+                required
+              />
+              {block.decisions?.map((decision) => (
+                <div className='is-flex is-justify-content-space-between py-1' key={decision.id}>
+                  <div>
+                    <label className='pr-1'>Option:</label>
+                    <input className='input is-inline is-small' name='option' onChange={handleDecisionChange(block, decision)} value={decision.option} required></input>
+                  </div>
+                  <div>
+                    <label className='pr-1'>Title of the block where it leads:</label>
+                    <select className='is-small select is-inline' name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
+                      <option disabled value={''}>Select a block </option>
+                      {bookDetails.blocks.map((item) => (
+                        <option key={item.id} value={item.title}>{item.title}</option>
+                      ))}
+                    </select>
+                  </div>
+                  
+                  <button className='button is-small is-danger is-light' type="button" onClick={() => removeLastDecision(block, decision.id)}>Detele decision</button>
+                </div>
+              ))}
+              <button className='button is-small is-success is-light block mb-2' type="button" onClick={() => addDecision(block)}>Add a decision</button>
+            </div>
+          ))}
+          <button className='button is-normal is-success is-light' type="button" onClick={addBlock}>Add new block</button>
+          <div className='is-flex is-justify-content-center my-5'>
+            <button className='button is-normal is-info' type='submit'>Submit your story</button>
+          </div>
+          
+        </form>
+      </div>
     </div>
   );
 };

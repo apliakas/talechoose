@@ -67,7 +67,7 @@ const BookDetails = (props) => {
         <details className='help my-6'>
           <summary className='pl-2 is-size-6' >Appendix</summary>
           {Object.entries(book.appendix).map(([key, value]) => (
-            <div key={key}>
+            <div className='my-2' key={key}>
               <strong>{key}:</strong> {value}
             </div>
           ))}

@@ -12,6 +12,7 @@ import BookDetails from '../Books/BookDetails';
 import UserBooks from '../Books/UserBooks';
 import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
+import Home from './Home'
 
 const isUserAuthenticated = (setUser) => {
   Auth
@@ -34,7 +35,7 @@ function App() {
       <Navbar user={user} setUser={setUser} />
       <div className='container p-4'>
         <Switch>
-          
+          <Route path='/' exact render={() => <Home user={user}/>} />
         </Switch>
         { user ? (
           <Switch>

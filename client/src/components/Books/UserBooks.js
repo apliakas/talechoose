@@ -27,14 +27,14 @@ const UserBooks = (props) => {
   };
 
   return (
-    <div>
+    <div className='mt-6'>
       {userBooks.map((book) => (
-        <div key={book._id}>
+        <div className='box has-text-centered' key={book._id}>
           <Link to={`/book/read/${book._id}`}>
-            <h1>{book.title}</h1>
+          <h1 className='is-size-3'>{book.title}</h1>
           </Link>
           { props.user && book.owner === props.user._id && (
-        <button onClick={() => deleteBook(book._id)}>
+        <button className='button is-danger is-light' onClick={() => deleteBook(book._id)}>
           Delete book
         </button>
       ) }
