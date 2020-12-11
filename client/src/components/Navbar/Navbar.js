@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Auth from '../../services/auth.service';
 
@@ -9,24 +9,47 @@ import './Navbar.scss';
 import logo from '../../static/logo.svg';
 
 const Navbar = (props) => {
+  const [isActive, setisActive] = useState(false);
+
+  const history = useHistory();
+
   const logoutUser = () => {
     Auth
       .logout()
       .then(() => {
         props.setUser(null);
+        history.push(`/`);
       });
   };
 
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
-      <div id="navbarBasicExample" className="navbar-menu">
-        <div className="navbar-start">
-          <Link to='/' className="navbar-item">
-            <img src={logo}></img>
-          </Link>
-        </div>
+      <div className="navbar-brand">
+        <Link to='/' className="navbar-item">
+          <img src={logo}></img>
+        </Link>
+
+        <a onClick={() => {
+              setisActive(!isActive)
+            }}
+            role="button" 
+            className={`navbar-burger burger ${isActive ? 'is-active' : ''}`} 
+            aria-label="menu" 
+            aria-expanded="false" 
+            data-target="navbarBasicExample"
+          >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      
 
         <div className="navbar-end">
+
+        <div id="navbarBasicExample" className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
+        <div className="navbar-start">
           <Link to='/books' className="navbar-item" >All books</Link>
           { props.user && (
             <>
@@ -34,6 +57,8 @@ const Navbar = (props) => {
               <Link to='/book/create' className="navbar-item" >Create a book</Link>
             </>
           )}
+        </div>
+
           <div className="navbar-item">
             <div className="buttons">
               { !props.user && (
@@ -56,6 +81,7 @@ const Navbar = (props) => {
         </div>
       </div>
     </nav>
+
   );
 };
 
