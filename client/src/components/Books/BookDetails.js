@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Books from '../../services/books.service';
 
-import './BookDetails.css';
+import './BookDetails.scss';
 
 const BookDetails = (props) => {
   const [book, setBook] = useState({});
@@ -26,6 +26,7 @@ const BookDetails = (props) => {
       .then((block) => {
         const blocks = [...book.blocks, block]
         setBook({...book, blocks})
+        window.scrollTo(0,document.body.scrollHeight);
       })
   }
 
@@ -36,9 +37,9 @@ const BookDetails = (props) => {
       <h3 className='has-text-centered is-size-1'>{book.title}</h3>
       {book.information && Object.entries(book.information).length && (
         <details  className='help mb-4' open>
-          <summary className='pl-2 is-size-6'>About this book</summary>
+          <summary className='pl-2 is-size-6 mb-2'>About this book</summary>
           {Object.entries(book.information).map(([key, value]) => (
-            <div key={key}>
+            <div className='px-4' key={key}>
               <strong>{key}:</strong> {value}
             </div>
           ))}
@@ -51,13 +52,13 @@ const BookDetails = (props) => {
             <p className='has-text-justified my-5' dangerouslySetInnerHTML={{__html: block.content}}></p>
             {!block.decisions?.length && (<h3>The End</h3>)}
             {(book.blocks.length === index + 1) && block.decisions?.map((decision) => (
-              <button className='button is-success is-light m-3' key={`${decision._id}-${index}`} type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
+              <button className='button is-info m-3' key={`${decision._id}-${index}`} type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
             ))}
           </div>
         )
         :
         (
-          <details className="my-2 has-background-light"> 
+          <details className="my-2 has-background-info-light"> 
             <summary className='pl-2'>{block.title}</summary>
             <p className='has-text-justified px-4 pb-4 pt-2' dangerouslySetInnerHTML={{__html: block.content}}></p>
           </details>
@@ -67,7 +68,7 @@ const BookDetails = (props) => {
         <details className='help my-6'>
           <summary className='pl-2 is-size-6' >Appendix</summary>
           {Object.entries(book.appendix).map(([key, value]) => (
-            <div className='my-2' key={key}>
+            <div className='my-2 has-text-justified px-4' key={key}>
               <strong>{key}:</strong> {value}
             </div>
           ))}

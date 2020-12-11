@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import Books from '../../services/books.service';
 
-import './CreateBook.css';
+import './CreateBook.scss';
 
 const newDecision = () => ({
   id: +new Date(),
@@ -143,7 +143,7 @@ const CreateBook = (props) => {
   return (
     <div>
       <h1 className='is-size-3 has-text-centered mt-6'>Your adventure starts here...</h1>
-      <div className='columns is-centered mt-3'>
+      <div className='columns is-centered mt-4'>
         <form className='column is-three-fifths' onSubmit={handleFormSubmit}>
           <div>
             <label htmlFor='title'>Title of your book:</label>
@@ -158,16 +158,15 @@ const CreateBook = (props) => {
                 required
               />
             </div>
-            
           </div>
+
           {bookDetails.blocks.map((block, index) => (
-            <div className='has-background-light p-2 my-4' key={block.id}>
-              <div className='is-flex is-justify-content-space-between'>
-                <label htmlFor={block.id}>Title of your block:</label>
-                {bookDetails.blocks.length > 1 ? <button  className='button is-small is-danger is-light ' onClick={() => removeBlock(block)}>Delete block</button> : <></>}
-              </div>
-              
-              <div className='control mb-2'>
+            <div className='has-background-light p-4 mt-4' key={block.id}>
+              <div className='control mb-4'>
+                <div className='is-flex is-justify-content-space-between'>
+                  <label htmlFor={block.id}>Title of your block:</label>
+                  {bookDetails.blocks.length > 1 ? <button  className='button is-small is-danger is-light ' onClick={() => removeBlock(block)}>Delete block</button> : <></>}
+                </div>
                 <input
                   className='input'
                   id={block.id}
@@ -177,20 +176,23 @@ const CreateBook = (props) => {
                   required
                 />
               </div>
-              <label htmlFor='blockContent'>Content of your block:</label>
-              
-              <textarea
-                className='textarea mb-2'
-                id='blockContent'
-                rows="4"
-                cols="50"
-                name='content'
-                value={block.content}
-                onChange={handleBlockChange(block)}
-                required
-              />
+
+              <div className='mb-4'>
+                <label htmlFor='blockContent'>Content of your block:</label>
+                <textarea
+                  className='textarea'
+                  id='blockContent'
+                  rows="4"
+                  cols="50"
+                  name='content'
+                  value={block.content}
+                  onChange={handleBlockChange(block)}
+                  required
+                />
+              </div>
+
               {block.decisions?.map((decision) => (
-                <div className='is-flex is-justify-content-space-between py-1' key={decision.id}>
+                <div className='is-flex is-justify-content-space-between mb-2 is-flex-wrap-wrap' key={decision.id}>
                   <div>
                     <label className='pr-1'>Option:</label>
                     <input className='input is-inline is-small' name='option' onChange={handleDecisionChange(block, decision)} value={decision.option} required></input>
@@ -208,14 +210,13 @@ const CreateBook = (props) => {
                   <button className='button is-small is-danger is-light' type="button" onClick={() => removeLastDecision(block, decision.id)}>Detele decision</button>
                 </div>
               ))}
-              <button className='button is-small is-success is-light block mb-2' type="button" onClick={() => addDecision(block)}>Add a decision</button>
+              <button className='button is-small is-success block mt-2' type="button" onClick={() => addDecision(block)}>Add a decision</button>
             </div>
           ))}
-          <button className='button is-normal is-success is-light' type="button" onClick={addBlock}>Add new block</button>
-          <div className='is-flex is-justify-content-center my-5'>
-            <button className='button is-normal is-info' type='submit'>Submit your story</button>
+          <button className='button is-normal is-success mt-4' type="button" onClick={addBlock}>Add new block</button>
+          <div className='is-flex is-justify-content-center my-6'>
+            <button className='button is-normal is-primary' type='submit'>Submit your story</button>
           </div>
-          
         </form>
       </div>
     </div>

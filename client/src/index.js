@@ -4,7 +4,7 @@ import './index.css';
 import App from './components/Root/App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import 'bulma/css/bulma.css';
+import './config.scss';
 
 ReactDOM.render(
   <React.StrictMode>

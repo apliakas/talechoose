@@ -1,0 +1,26 @@
+$link: #687864;
+$link-hover: darken($link, 15%);
+$link-hover-border: darken($link, 15%);
+$link-focus: darken($link, 15%);
+$link-focus-border: darken($link, 15%);
+$link-active: darken($link, 15%);
+$link-active-border: darken($link, 15%);
+
+$navbar-background-color: #31708e;
+$navbar-item-color: #fff;
+$navbar-item-hover-background-color: #5085a5;
+$navbar-item-hover-color: #fff;
+
+$body-background-color: #f7f9fb;
+
+$footer-background-color: #687864;
+$footer-color: #fff;
+
+$info: #8fc1e3;
+$primary: #5085a5;
+
+$footer-padding: 2rem 1.5rem;
+
+$input-border-color: #5085a5;
+
+@import '../node_modules/bulma/bulma.sass';

@@ -10,7 +10,7 @@ const throwError = (response) => (error) => {
 };
 
 router.get('/books', (request, response) => {
-  Book.find()
+  Book.find().populate('owner')
     .then((books) => { 
       response.status(200).json(books);
     })

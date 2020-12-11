@@ -67,6 +67,7 @@ const Signup = (props) => {
         </form>
         {signupErrorMessage && <p style={{ color: 'red' }} >{signupErrorMessage}</p>}
       </div>
+      <p></p>
     </div>
     </>
   );

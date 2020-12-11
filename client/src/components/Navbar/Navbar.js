@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 
 import Auth from '../../services/auth.service';
 
-import './Navbar.css';
+import './Navbar.scss';
+
+import logo from '../../static/logo.svg';
 
 const Navbar = (props) => {
   const logoutUser = () => {
@@ -16,12 +18,15 @@ const Navbar = (props) => {
   };
 
   return (
-    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav className="navbar" role="navigation" aria-label="main navigation">
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
           <Link to='/' className="navbar-item">
-            SomeText
+            <img src={logo}></img>
           </Link>
+        </div>
+
+        <div className="navbar-end">
           <Link to='/books' className="navbar-item" >All books</Link>
           { props.user && (
             <>
@@ -29,9 +34,6 @@ const Navbar = (props) => {
               <Link to='/book/create' className="navbar-item" >Create a book</Link>
             </>
           )}
-        </div>
-
-        <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
               { !props.user && (

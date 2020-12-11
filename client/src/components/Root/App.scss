@@ -1,0 +1,15 @@
+html {
+  scroll-behavior: smooth;
+}
+
+summary {
+  cursor: pointer;
+}
+
+.App {
+  min-height: 100vh;
+}
+
+.border-gray {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}

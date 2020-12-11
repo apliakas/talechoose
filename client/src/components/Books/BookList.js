@@ -26,14 +26,21 @@ const BookList = (props) => {
   return (
     <div className='mt-6'>
       {props.user ? <p className='has-text-centered mb-3 is-size-4'>Welcome {props.user.username}, this is the list of all the books for the moment.</p> : <p className='has-text-centered mb-3 is-size-4'>This is the public list of books for the moment</p>}
-      <input className='input my-5' placeholder='Search here for a title' onChange={handleSearch}></input>
-      {filteredBooks.map((book) => (
-        <div className='box has-text-centered' key={book._id}>
-          <Link to={`/book/read/${book._id}`}>
-            <h1 className='is-size-3'>{book.title}</h1>
-          </Link>
-        </div>
-      ))}
+      <input className='input mt-4' placeholder='Search here for a title' onChange={handleSearch}></input>
+      <div className='mt-6 columns is-flex is-flex-wrap-wrap'>
+        {filteredBooks.map((book) => (
+          <div className='column is-12-mobile is-6' key={book._id}>
+            <div className='border-gray box has-text-centered p-0'>
+              <Link to={`/book/read/${book._id}`} class="is-block p-4">
+                <h1 className='is-size-3 mb-2'>{book.title}</h1>
+                <div className="has-text-dark">
+                  <strong>Added by:</strong> {book.owner.username}
+                </div>
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
