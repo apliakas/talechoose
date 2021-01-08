@@ -19,6 +19,7 @@ router.get('/books', (request, response) => {
 
 router.get('/book/:id', (request, response) => {
   const { id } = request.params;
+  const { allBlocks } = request.query;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     response.status(400).json({ message: "Specified id is not valid" });
@@ -27,7 +28,9 @@ router.get('/book/:id', (request, response) => {
 
   Book.findById(id)
     .then((book) => {
-      book.blocks = [book.blocks[0]];
+      if (!allBlocks) {
+        book.blocks = [book.blocks[0]];
+      }
 
       response.status(200).json(book);
     })

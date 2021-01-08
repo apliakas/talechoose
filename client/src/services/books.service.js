@@ -11,8 +11,8 @@ books.getAll = () => {
   return request.get('/books').then((response) => response.data);
 };
 
-books.getById = (id) => {
-  return request.get(`/book/${id}`).then((response) => response.data);
+books.getById = (id, allBlocks = false) => {
+  return request.get(`/book/${id}${allBlocks ? '?allBlocks=true' : ''}`).then((response) => response.data);
 };
 
 books.getBlockByTitle = (id, title) => {

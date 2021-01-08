@@ -14,6 +14,7 @@ import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
 import Home from './Home'
 import Footer from '../Footer/Footer';
+import EditBook from '../Books/EditBook'
 
 const isUserAuthenticated = (setUser) => {
   Auth
@@ -45,6 +46,7 @@ function App() {
               <Route path='/book/create' exact component={CreateBook} />
               <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user}/>} />
               <Route path='/user/books' render={() => <UserBooks user={user}/>} />
+              <Route path='/book/editBook/:id' render={({match}) => <EditBook match={match} user={user}/>}/>
             </Switch>
           ) : (
             <Switch>
