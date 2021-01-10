@@ -94,6 +94,18 @@ router.post('/book', (request, response) => {
     .catch(throwError(response));
 });
 
+router.post('/book/:id', (request, response) => {
+  const { id } = request.params;
+  const updatedBook = request.body;
+  
+  Book
+    .findByIdAndUpdate(id, updatedBook)
+    .then((result) => {
+      response.status(201).json(result);
+    })
+    .catch(throwError(response));
+});
+
 router.delete('/book/:id', (request, response) => {
   const { id } = request.params;
 

@@ -28,7 +28,7 @@ const BookDetails = (props) => {
         setBook({...book, blocks})
         window.scrollTo(0,document.body.scrollHeight);
       })
-  }
+  };
 
   useEffect(getBook, [props.match.params]);
 

@@ -27,6 +27,10 @@ books.create = (bookDetails) => {
   return request.post('/book', bookDetails).then((response) => response.data);
 };
 
+books.update = (id, updatedBook) => {
+  return request.post(`/book/${id}`, updatedBook).then((response) => response.data);
+};
+
 books.deleteById = (id) => {
   return request.delete(`/book/${id}`).then((response) => response.data);
 };
