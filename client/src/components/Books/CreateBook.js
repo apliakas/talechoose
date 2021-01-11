@@ -116,8 +116,6 @@ const CreateBook = (props) => {
         })
         .catch((error) => console.log(error));
     }
-    
-    
   };
 
   const addBlock = () => {

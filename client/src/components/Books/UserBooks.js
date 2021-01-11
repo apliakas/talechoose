@@ -26,6 +26,14 @@ const UserBooks = (props) => {
       .catch((err) => console.log(err));
   };
 
+  const confirmDeleteBook = (book) => {
+    if ( window.confirm(`Are you sure you want to delete the book ${book.title}?`)) {
+      deleteBook(book._id)
+    } else {
+      console.log('something')
+    }
+  }
+
   return (
     <div className='mt-6 columns is-flex is-flex-wrap-wrap'>
       {userBooks.map((book) => (
@@ -37,7 +45,7 @@ const UserBooks = (props) => {
           </div>
           { props.user && book.owner === props.user._id && (
             <div>
-              <button className='button is-danger is-light ml-3' onClick={() => deleteBook(book._id)}>
+              <button className='button is-danger is-light ml-3' onClick={() => confirmDeleteBook(book)}>
                 Delete book
               </button>
               <Link className='button is-success is-light ml-3' to={`/book/editBook/${book._id}`}>Edit Book</Link>
