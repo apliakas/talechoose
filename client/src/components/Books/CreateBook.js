@@ -11,7 +11,7 @@ const newDecision = () => ({
 });
 
 const newBlock = (index) => ({
-  id: +new Date(),
+  _id: `${+new Date()}`,
   title: `Block ${index}`,
   content: '',
 });
@@ -34,6 +34,26 @@ const CreateBook = (props) => {
         setBookDetails(bookToEdit);
       })
       .catch((err) => console.log(err));
+
+      const fixedDecisions = {
+        ...bookDetails,
+        blocks: bookDetails.blocks.map((block) => {
+          return {
+            title: block.title,
+            content: block.content,
+            decisions: block.decisions?.map((decision) => {
+              let decisionPath = bookDetails.blocks.find(block => block.title === decision.toBlock);
+              
+              return {
+                ...decision,
+                toBlock: decisionPath._id
+              }
+            })
+          };
+        }),
+      };
+
+      setBookDetails(fixedDecisions);
   };
 
   useEffect(() => {
@@ -101,17 +121,34 @@ const CreateBook = (props) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
+    const bookToSend = {
+      ...bookDetails,
+      blocks: bookDetails.blocks.map((block) => {
+        return {
+          title: block.title,
+          content: block.content,
+          decisions: block.decisions?.map((decision) => {
+            let decisionPath = bookDetails.blocks.find(block => block._id === decision.toBlock);
+            
+            return {
+              ...decision,
+              toBlock: decisionPath.title
+            }
+          })
+        };
+      }),
+    };
+
     if (editMode) {
-      Books.update(bookDetails._id, bookDetails)
+      Books.update(bookToSend._id, bookToSend)
         .then((book) => { 
           props.history.push(`/book/read/${book._id}`);
         })
         .catch((error) => console.log(error));
     } else {
-      Books.create(bookDetails)
+      Books.create(bookToSend)
         .then((book) => { 
           setBookDetails(initialState);
-
           props.history.push(`/book/read/${book._id}`);
         })
         .catch((error) => console.log(error));
@@ -125,7 +162,7 @@ const CreateBook = (props) => {
   };
 
   const removeBlock = (block) => { 
-    const blocks = bookDetails.blocks.filter((item) => item.id !== block.id);
+    const blocks = bookDetails.blocks.filter((item) => item._id !== block._id);
 
     setBookDetails({ ...bookDetails, blocks });
   }
@@ -188,8 +225,8 @@ const CreateBook = (props) => {
             </div>
           </div>
 
-          {bookDetails.blocks.map((block, index) => (
-            <div className='has-background-light p-4 mt-4' key={block.id}>
+          {bookDetails.blocks.map((block) => (
+            <div className='has-background-light p-4 mt-4' key={block._id}>
               <div className='control mb-4'>
                 <div className='is-flex is-justify-content-space-between'>
                   <label htmlFor={block.id}>Title of your block:</label>
@@ -197,7 +234,7 @@ const CreateBook = (props) => {
                 </div>
                 <input
                   className='input'
-                  id={block.id}
+                  id={block._id}
                   name='title'
                   value={block.title}
                   onChange={handleBlockChange(block)}
@@ -227,11 +264,11 @@ const CreateBook = (props) => {
                   </div>
                   <div>
                     <label className='pr-1'>Title of the block where it leads:</label>
-                    <select className='is-small select is-inline' name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
-                      {editMode ? (<option value={decision.toBlock}>{decision.toBlock}</option>) : (<option disabled value={''}>Select a block </option>)}
+                    <select className='is-small select is-inline' name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={editMode ? decision.toBlock : ''}>
+                      <option disabled value={''}>Select a block </option>
                       
                       {bookDetails.blocks.map((item) => (
-                        <option key={item.id} value={item.title}>{item.title}</option>
+                        <option key={item._id} value={item._id}>{item.title}</option>
                       ))}
                     </select>
                   </div>
