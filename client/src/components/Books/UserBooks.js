@@ -26,10 +26,6 @@ const UserBooks = (props) => {
       .catch((err) => console.log(err));
   };
 
-  const redirectToEditBook = (book) => {
-    props.history.push(`/book/editBook/${book._id}`)
-  }
-
   return (
     <div className='mt-6 columns is-flex is-flex-wrap-wrap'>
       {userBooks.map((book) => (
@@ -44,9 +40,7 @@ const UserBooks = (props) => {
               <button className='button is-danger is-light ml-3' onClick={() => deleteBook(book._id)}>
                 Delete book
               </button>
-              <button className='button is-success is-light ml-3' onClick={() => redirectToEditBook(book)} >
-                Edit Book
-              </button>
+              <Link className='button is-success is-light ml-3' to={`/book/editBook/${book._id}`}>Edit Book</Link>
             </div>
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Books from '../../services/books.service';
 
@@ -23,6 +23,26 @@ const initialState = {
 
 const CreateBook = (props) => {
   const [bookDetails, setBookDetails] = useState(initialState);
+
+  const { id: bookId } = props.match.params;
+  const editMode = !!bookId;
+
+  const getBookById = (id) => {
+    Books 
+      .getById(id, true)
+      .then((bookToEdit) => {
+        setBookDetails(bookToEdit);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    if (bookId) {
+      getBookById(bookId);
+    } else {
+      setBookDetails(initialState);
+    }
+  }, [props.match.params]);
 
   const handleBookChange = (event) => {
     const { name, value } = event.target;
@@ -80,14 +100,24 @@ const CreateBook = (props) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    
-    Books.create(bookDetails)
-      .then((book) => { 
-        setBookDetails(initialState);
 
-        props.history.push(`/book/read/${book._id}`);
-      })
-      .catch((error) => console.log(error));
+    if (editMode) {
+      Books.update(bookDetails._id, bookDetails)
+        .then((book) => { 
+          props.history.push(`/book/read/${book._id}`);
+        })
+        .catch((error) => console.log(error));
+    } else {
+      Books.create(bookDetails)
+        .then((book) => { 
+          setBookDetails(initialState);
+
+          props.history.push(`/book/read/${book._id}`);
+        })
+        .catch((error) => console.log(error));
+    }
+    
+    
   };
 
   const addBlock = () => {
@@ -142,7 +172,7 @@ const CreateBook = (props) => {
 
   return (
     <div>
-      <h1 className='is-size-3 has-text-centered mt-6'>Your adventure starts here...</h1>
+      <h1 className='is-size-3 has-text-centered mt-6'>{ editMode ? `Editing ${bookDetails.title}` : 'Your adventure starts here...' }</h1>
       <div className='columns is-centered mt-4'>
         <form className='column is-three-fifths' onSubmit={handleFormSubmit}>
           <div>
@@ -200,7 +230,8 @@ const CreateBook = (props) => {
                   <div>
                     <label className='pr-1'>Title of the block where it leads:</label>
                     <select className='is-small select is-inline' name='toBlock' onChange={handleDecisionChange(block, decision)} required defaultValue={''}>
-                      <option disabled value={''}>Select a block </option>
+                      {editMode ? (<option value={decision.toBlock}>{decision.toBlock}</option>) : (<option disabled value={''}>Select a block </option>)}
+                      
                       {bookDetails.blocks.map((item) => (
                         <option key={item.id} value={item.title}>{item.title}</option>
                       ))}

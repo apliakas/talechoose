@@ -14,7 +14,6 @@ import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
 import Home from './Home'
 import Footer from '../Footer/Footer';
-import EditBook from '../Books/EditBook'
 
 const isUserAuthenticated = (setUser) => {
   Auth
