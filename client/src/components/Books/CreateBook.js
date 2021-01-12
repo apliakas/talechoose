@@ -207,7 +207,8 @@ const CreateBook = (props) => {
 
   return (
     <div>
-      <h1 className='is-size-3 has-text-centered mt-6'>{ editMode ? `Editing ${bookDetails.title}` : 'Your adventure starts here...' }</h1>
+      <button className='button mt-2 is-primary is-outlined'onClick={() => editMode ? props.history.push('/user/books') : props.history.push('/books')}> ᐸ Go back</button>
+      <h1 className='is-size-3 has-text-centered mt-2'>{ editMode ? `Editing ${bookDetails.title}` : 'Your adventure starts here...' }</h1>
       <div className='columns is-centered mt-4'>
         <form className='column is-three-fifths' onSubmit={handleFormSubmit}>
           <div>
