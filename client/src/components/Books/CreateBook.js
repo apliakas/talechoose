@@ -4,21 +4,23 @@ import Books from '../../services/books.service';
 
 import './CreateBook.scss';
 
+let blockCounter = 1;
+
 const newDecision = () => ({
   id: +new Date(),
   option: 'Continue',
   toBlock: '',
 });
 
-const newBlock = (index) => ({
+const newBlock = () => ({
   _id: `${+new Date()}`,
-  title: `Block ${index}`,
+  title: `Block ${blockCounter}`,
   content: '',
 });
 
 const initialState = {
   title: '',
-  blocks: [newBlock(1)],
+  blocks: [newBlock()],
 };
 
 const CreateBook = (props) => {
@@ -31,29 +33,29 @@ const CreateBook = (props) => {
     Books 
       .getById(id, true)
       .then((bookToEdit) => {
-        setBookDetails(bookToEdit);
+
+        const fixedDecisions = {
+          ...bookToEdit,
+          blocks: bookToEdit.blocks.map((block) => {
+            return {
+              title: block.title,
+              content: block.content,
+              _id: block._id,
+              decisions: block.decisions?.map((decision) => {
+                let decisionPath = bookToEdit.blocks.find(block => block.title === decision.toBlock);
+                
+                return {
+                  ...decision,
+                  toBlock: decisionPath._id
+                }
+              })
+            };
+          }),
+        };
+  
+        setBookDetails(fixedDecisions);
       })
       .catch((err) => console.log(err));
-
-      const fixedDecisions = {
-        ...bookDetails,
-        blocks: bookDetails.blocks.map((block) => {
-          return {
-            title: block.title,
-            content: block.content,
-            decisions: block.decisions?.map((decision) => {
-              let decisionPath = bookDetails.blocks.find(block => block.title === decision.toBlock);
-              
-              return {
-                ...decision,
-                toBlock: decisionPath._id
-              }
-            })
-          };
-        }),
-      };
-
-      setBookDetails(fixedDecisions);
   };
 
   useEffect(() => {
@@ -61,7 +63,9 @@ const CreateBook = (props) => {
       getBookById(bookId);
     } else {
       setBookDetails(initialState);
-    }
+    };
+
+    blockCounter = 1;
   }, [props.match.params]);
 
   const handleBookChange = (event) => {
@@ -129,7 +133,7 @@ const CreateBook = (props) => {
           content: block.content,
           decisions: block.decisions?.map((decision) => {
             let decisionPath = bookDetails.blocks.find(block => block._id === decision.toBlock);
-            
+
             return {
               ...decision,
               toBlock: decisionPath.title
@@ -156,7 +160,7 @@ const CreateBook = (props) => {
   };
 
   const addBlock = () => {
-    const blocks = [...bookDetails.blocks, newBlock(bookDetails.blocks.length + 1)];
+    const blocks = [...bookDetails.blocks, newBlock()];
 
     setBookDetails({ ...bookDetails, blocks });
   };
@@ -280,7 +284,7 @@ const CreateBook = (props) => {
               <button className='button is-small is-success block mt-2' type="button" onClick={() => addDecision(block)}>Add a decision</button>
             </div>
           ))}
-          <button className='button is-normal is-success mt-4' type="button" onClick={addBlock}>Add new block</button>
+          <button className='button is-normal is-success mt-4' type="button" onClick={() => {blockCounter++; addBlock();} }>Add new block</button>
           <div className='is-flex is-justify-content-center my-6'>
             <button className='button is-normal is-primary' type='submit'>Submit your story</button>
           </div>
