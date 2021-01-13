@@ -128,6 +128,7 @@ const CreateBook = (props) => {
 
     const bookToSend = {
       ...bookDetails,
+      public: visibility,
       blocks: bookDetails.blocks.map((block) => {
         return {
           title: block.title,
@@ -143,6 +144,8 @@ const CreateBook = (props) => {
         };
       }),
     };
+
+    console.log(bookToSend);
 
     if (editMode) {
       Books.update(bookToSend._id, bookToSend)
