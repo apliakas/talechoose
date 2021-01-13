@@ -25,6 +25,7 @@ const initialState = {
 
 const CreateBook = (props) => {
   const [bookDetails, setBookDetails] = useState(initialState);
+  const [visibility, setVisibility] = useState(true);
 
   const { id: bookId } = props.match.params;
   const editMode = !!bookId;
@@ -207,7 +208,11 @@ const CreateBook = (props) => {
     ];
 
     setBookDetails({ ...bookDetails, blocks: modifiedBlocks });
-  }
+  };
+
+  const changeVisibility = () => {
+    setVisibility(!visibility);
+  };
 
   return (
     <div>
@@ -216,7 +221,7 @@ const CreateBook = (props) => {
         <div className='mt-2 is-flex is-align-items-center'>
           <h2 className='mr-3'>Visibility of the book:</h2>
           <div className='switch is-flex is-align-items-center'>
-            <input className='checkboxPublic' id='visibility' type='checkbox'></input>
+            <input checked={visibility} onChange={changeVisibility} className='checkboxPublic' id='visibility' type='checkbox'></input>
             <label className='visibility px-3 py-2' for='visibility' >Public</label>
             <label className='visibility px-3 py-2' for='visibility' >Private</label>
           </div>
