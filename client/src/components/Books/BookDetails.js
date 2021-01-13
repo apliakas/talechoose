@@ -25,8 +25,7 @@ const BookDetails = (props) => {
       .getBlockByTitle(id, title)
       .then((block) => {
         const blocks = [...book.blocks, block]
-        setBook({...book, blocks})
-        window.scrollTo(0,document.body.scrollHeight);
+        setBook({...book, blocks});
       })
   };
 

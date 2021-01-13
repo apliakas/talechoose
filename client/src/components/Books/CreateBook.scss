@@ -1,3 +1,29 @@
 .create-book-container {
   margin: 0 auto;
 }
+
+.checkboxPublic {
+  display: none;
+}
+
+.visibility {
+  color: white;
+  background: #5085a5;
+}
+
+.switch {
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #5085a5;
+}
+
+.checkboxPublic:not(:checked) + .visibility + .visibility, 
+.checkboxPublic:checked + .visibility {
+  pointer-events: none;
+}
+
+.checkboxPublic:checked + .visibility + .visibility, 
+.checkboxPublic:not(:checked) + .visibility {
+  color: #5085a5;
+  background: white;
+}

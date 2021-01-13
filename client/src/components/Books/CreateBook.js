@@ -146,14 +146,14 @@ const CreateBook = (props) => {
     if (editMode) {
       Books.update(bookToSend._id, bookToSend)
         .then((book) => { 
-          props.history.push(`/book/read/${book._id}`);
+          props.history.push(`/user/books`);
         })
         .catch((error) => console.log(error));
     } else {
       Books.create(bookToSend)
         .then((book) => { 
           setBookDetails(initialState);
-          props.history.push(`/book/read/${book._id}`);
+          props.history.push(`/user/books`);
         })
         .catch((error) => console.log(error));
     }
@@ -211,7 +211,19 @@ const CreateBook = (props) => {
 
   return (
     <div>
-      <button className='button mt-2 is-primary is-outlined'onClick={() => editMode ? props.history.push('/user/books') : props.history.push('/books')}> ᐸ Go back</button>
+      <div className='is-flex is-justify-content-space-between'>
+        <button className='button mt-2 is-primary is-outlined'onClick={() => editMode ? props.history.push('/user/books') : props.history.push('/books')}> ᐸ Go back</button>
+        <div className='mt-2 is-flex is-align-items-center'>
+          <h2 className='mr-3'>Visibility of the book:</h2>
+          <div className='switch is-flex is-align-items-center'>
+            <input className='checkboxPublic' id='visibility' type='checkbox'></input>
+            <label className='visibility px-3 py-2' for='visibility' >Public</label>
+            <label className='visibility px-3 py-2' for='visibility' >Private</label>
+          </div>
+        </div>
+        
+      </div>
+      
       <h1 className='is-size-3 has-text-centered mt-2'>{ editMode ? `Editing ${bookDetails.title}` : 'Your adventure starts here...' }</h1>
       <div className='columns is-centered mt-4'>
         <form className='column is-three-fifths' onSubmit={handleFormSubmit}>

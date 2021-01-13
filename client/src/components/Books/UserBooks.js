@@ -38,10 +38,10 @@ const UserBooks = (props) => {
     <div className='mt-6 columns is-flex is-flex-wrap-wrap'>
       {userBooks.map((book) => (
         <div className='column is-6 has-text-centered'>
-        <div className='box border-gray' key={book._id}>
-          <Link to={`/book/read/${book._id}`}>
-          <h1 className='is-size-3'>{book.title}</h1>
-          </Link>
+          <div className='box border-gray mb-3' key={book._id}>
+            <Link to={`/book/read/${book._id}`}>
+            <h1 className='is-size-3'>{book.title}</h1>
+            </Link>
           </div>
           { props.user && book.owner === props.user._id && (
             <div>
