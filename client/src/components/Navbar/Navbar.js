@@ -50,9 +50,10 @@ const Navbar = (props) => {
 
         <div id="navbarBasicExample" className={`navbar-menu ${isActive ? 'is-active' : ''}`}>
         <div className="navbar-start">
-          <Link to='/books' className="navbar-item" >All books</Link>
+          <Link to='/books' className="navbar-item" >Public books</Link>
           { props.user && (
             <>
+              <Link to='/user/favourite-books' className='navbar-item'>Fav. Books</Link>
               <Link to='/user/books' className="navbar-item" >My books</Link> 
               <Link to='/book/create' className="navbar-item" >Create a book</Link>
             </>

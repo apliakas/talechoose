@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Books from '../../services/books.service';
 
 import './BookDetails.scss';
+import BookList from './BookList';
 
 const BookDetails = (props) => {
   const [book, setBook] = useState({});
@@ -29,11 +30,16 @@ const BookDetails = (props) => {
       })
   };
 
+  const addFavourites = () => {
+    
+  };
+
   useEffect(getBook, [props.match.params]);
 
   return (
     <div className="book-container">
       <h3 className='has-text-centered is-size-1'>{book.title}</h3>
+      <button className='button is-small' onClick={addFavourites} >Add book to favourites</button>
       {book.information && Object.entries(book.information).length && (
         <details  className='help mb-4' open>
           <summary className='pl-2 is-size-6 mb-2'>About this book</summary>

@@ -36,6 +36,10 @@ const Book = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user"
   },
+  favouriteOf: {
+    type: Schema.Types.ObjectId,
+    ref: "user"
+  },
   information: Object,
   appendix: Object,
   blocks: { 

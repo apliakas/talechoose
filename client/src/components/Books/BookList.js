@@ -25,7 +25,7 @@ const BookList = (props) => {
 
   return (
     <div className='mt-6'>
-      {props.user ? <p className='has-text-centered mb-3 is-size-4'>Welcome {props.user.username}, this is the list of all the books for the moment.</p> : <p className='has-text-centered mb-3 is-size-4'>This is the public list of books for the moment</p>}
+      {props.user ? <p className='has-text-centered mb-3 is-size-4'>Welcome {props.user.username}, this is the list of all the public books for the moment.</p> : <p className='has-text-centered mb-3 is-size-4'>This is the public list of books for the moment</p>}
       <input className='input mt-4' placeholder='Search here for a title' onChange={handleSearch}></input>
       <div className='mt-6 columns is-flex is-flex-wrap-wrap'>
         {filteredBooks.map((book) => (
