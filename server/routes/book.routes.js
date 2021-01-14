@@ -12,7 +12,8 @@ const throwError = (response) => (error) => {
 router.get('/books', (request, response) => {
   Book.find().populate('owner')
     .then((books) => { 
-      response.status(200).json(books);
+      const publicBooks = books.filter(book => book.public === true)
+      response.status(200).json(publicBooks);
     })
     .catch(throwError(response));
 });

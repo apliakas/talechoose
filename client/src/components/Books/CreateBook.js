@@ -44,10 +44,10 @@ const CreateBook = (props) => {
               _id: block._id,
               decisions: block.decisions?.map((decision) => {
                 let decisionPath = bookToEdit.blocks.find(block => block.title === decision.toBlock);
-                
+
                 return {
                   ...decision,
-                  toBlock: decisionPath._id
+                  toBlock: decisionPath._id,
                 }
               })
             };
@@ -55,12 +55,13 @@ const CreateBook = (props) => {
         };
   
         setBookDetails(fixedDecisions);
+        setVisibility(fixedDecisions.public);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    if (bookId) {
+    if (editMode) {
       getBookById(bookId);
     } else {
       setBookDetails(initialState);
@@ -144,8 +145,6 @@ const CreateBook = (props) => {
         };
       }),
     };
-
-    console.log(bookToSend);
 
     if (editMode) {
       Books.update(bookToSend._id, bookToSend)
@@ -271,7 +270,7 @@ const CreateBook = (props) => {
                 <label htmlFor='blockContent'>Content of your block:</label>
                 <textarea
                   className='textarea'
-                  id='blockContent'
+                  id={block._id + 'blockContent'}
                   rows="4"
                   cols="50"
                   name='content'

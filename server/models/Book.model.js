@@ -42,6 +42,7 @@ const Book = new Schema({
     type: [Block],
     required: [true, "A book require at least one block."]
   },
+  public: Boolean,
 });
 
 module.exports = model("book", Book);
