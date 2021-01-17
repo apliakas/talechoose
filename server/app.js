@@ -46,6 +46,7 @@ app.use(passport.session());
 // default value for title local
 app.use('/api', require('./routes/auth.routes'));
 app.use('/api', require('./routes/book.routes'));
+app.use('/api', require('./routes/user.routes'));
 
 app.use('/static', express.static(path.join(__dirname, '../client/build/static')));
 app.use('/', express.static(path.join(__dirname, '../client/build/')));

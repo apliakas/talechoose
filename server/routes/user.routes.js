@@ -10,10 +10,11 @@ const throwError = (response) => (error) => {
 };
 
 router.post('/user/:id/update', (request, response) => {
-  const { id } = userId
-  const updatedUser = request.body
+  const { id } = request.params;
+  const updatedUser = request.body;
 
-  User.findByIdAndUpdate(userId, updatedUser)
+  User
+    .findByIdAndUpdate(id, updatedUser)
     .then((result) => {
       response.status(201).json(result);
     })

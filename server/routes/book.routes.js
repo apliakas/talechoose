@@ -10,7 +10,9 @@ const throwError = (response) => (error) => {
 };
 
 router.get('/books', (request, response) => {
-  Book.find({
+
+  Book
+    .find({
     public: true
   }).populate('owner')
     .then((books) => { 
@@ -28,7 +30,8 @@ router.get('/book/:id', (request, response) => {
     return;
   }
 
-  Book.findById(id)
+  Book
+    .findById(id)
     .then((book) => {
       if (!allBlocks) {
         book.blocks = [book.blocks[0]];
@@ -52,7 +55,8 @@ router.get('/book/:bookId/:blockTitle', (request, response) => {
     return;
   }
 
-  Book.findById(bookId)
+  Book
+    .findById(bookId)
     .then((book) => {
       const block = book.blocks.find((block) => block.title === blockTitle);
 
@@ -69,7 +73,8 @@ router.get('/books/user/:userId', (request, response) => {
     return;
   }
 
-  Book.find()
+  Book
+    .find()
     .then((books) => { 
       const userBooks = books.filter((book) => book.owner == userId);
       
@@ -116,7 +121,8 @@ router.delete('/book/:id', (request, response) => {
     return;
   }
 
-  Book.findByIdAndRemove(id)
+  Book
+    .findByIdAndRemove(id)
     .then(() => {
       response.status(200).json({ message: 'The book has been deleted' }); 
     })

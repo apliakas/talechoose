@@ -32,10 +32,10 @@ const BookDetails = (props) => {
 
   const addFavourites = () => {
     const user = props.user;
-    //const updatedUser = { ...user, user.favouriteBooks.push(book._id)}
+    const updatedUser = { ...user, favouriteBooks: user.favouriteBooks.concat([book._id])}
     
-    User.update(user._id, user)
-      .then()
+    User.update(user._id, updatedUser)
+      .then((user) => console.log(user))
       .catch((err) => console.log(err));
   };
 
