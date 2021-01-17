@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import Books from '../../services/books.service';
+import User from '../../services/user.service';
 
 import './BookDetails.scss';
-import BookList from './BookList';
 
 const BookDetails = (props) => {
   const [book, setBook] = useState({});
@@ -31,7 +31,12 @@ const BookDetails = (props) => {
   };
 
   const addFavourites = () => {
+    const user = props.user;
+    //const updatedUser = { ...user, user.favouriteBooks.push(book._id)}
     
+    User.update(user._id, user)
+      .then()
+      .catch((err) => console.log(err));
   };
 
   useEffect(getBook, [props.match.params]);
