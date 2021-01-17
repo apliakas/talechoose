@@ -9,6 +9,17 @@ const throwError = (response) => (error) => {
   response.status(500).json(error);
 };
 
+router.get('/user/:id/favourite-books', (request, response) => {
+  const { id } = request.params;
+
+  User.findById(id)
+    .populate('favouriteBooks')
+    .then((user) => {
+      response.status(201).json(user.favouriteBooks);
+    })
+    .catch(throwError(response));
+});
+
 router.post('/user/:id/update', (request, response) => {
   const { id } = request.params;
   const updatedUser = request.body;

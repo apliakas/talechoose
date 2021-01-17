@@ -39,12 +39,21 @@ const BookDetails = (props) => {
       .catch((err) => console.log(err));
   };
 
+  const removeFavourites = () => {
+    const user = props.user;
+    const updatedUser = { ...user, favouriteBooks: user.favouriteBooks.filter((favBook) => favBook !== book._id)}
+    
+    User.update(user._id, updatedUser)
+      .then((user) => console.log(user))
+      .catch((err) => console.log(err));
+  };
+
   useEffect(getBook, [props.match.params]);
 
   return (
     <div className="book-container">
       <h3 className='has-text-centered is-size-1'>{book.title}</h3>
-      <button className='button is-small' onClick={addFavourites} >Add book to favourites</button>
+      { props.user?.favouriteBooks.includes(book._id) ? <button className='button is-small' onClick={removeFavourites} >Delete book from favourites</button> : <button className='button is-small' onClick={addFavourites} >Add book to favourites</button>} 
       {book.information && Object.entries(book.information).length && (
         <details  className='help mb-4' open>
           <summary className='pl-2 is-size-6 mb-2'>About this book</summary>

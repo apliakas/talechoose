@@ -7,6 +7,10 @@ const request = axios.create({
 
 const user = {};
 
+user.getFavouriteBooks = (userId) => {
+  return request.get(`/user/${userId}/favouriteBooks`).then((response) => response.data);
+};
+
 user.update = (userId, updatedUser) => {
   return request.post(`/user/${userId}/update`, updatedUser).then((response) => response.data);
 };
