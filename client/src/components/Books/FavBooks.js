@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
-import Books from '../../services/books.service';
+import User from '../../services/user.service';
 
 const FavBooks = (props) => {
   const [favouriteBooks, setFavouriteBooks] = useState([])
+
+  const getFavouriteBooks = () => {
+    const userId = props.user._id;
+    
+    User.getFavouriteBooks(userId)
+      .then((favBooks) => {
+        setFavouriteBooks(favBooks)})
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(getFavouriteBooks, [])
 
   return (
     <div className='mt-6'>

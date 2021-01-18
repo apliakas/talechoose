@@ -4,8 +4,12 @@ const userSchema = new Schema(
   {
     username: String,
     password: String,
-    books: [{ type: Schema.Types.ObjectId, ref: "books" }],
-    favouriteBooks: [{ type: Schema.Types.ObjectId, ref: "books" }],
+    favouriteBooks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "book"
+      }
+    ],
   },
   {
     timestamps: true,
