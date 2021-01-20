@@ -40,7 +40,7 @@ const UserBooks = (props) => {
         <div className='column is-6 has-text-centered'>
           <div className='box border-gray mb-3' key={book._id}>
             <Link to={`/book/read/${book._id}`}>
-            <h1 className='is-size-3'>{book.title}</h1>
+            <h1 className='is-size-3'>{book.title} { book.public ? '🔓' : '🔒' }</h1>
             </Link>
           </div>
           { props.user && book.owner === props.user._id && (
@@ -57,4 +57,4 @@ const UserBooks = (props) => {
   );
 };
 
-export default UserBooks;
+export default UserBooks;  

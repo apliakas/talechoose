@@ -13,7 +13,12 @@ router.get('/user/:id/favourite-books', (request, response) => {
   const { id } = request.params;
 
   User.findById(id)
-    .populate('favouriteBooks')
+    .populate({
+      path: 'favouriteBooks',
+      populate: {
+        path:'owner'
+      }
+    })
     .then((user) => {
       response.status(201).json(user);
     })

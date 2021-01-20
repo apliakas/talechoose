@@ -44,7 +44,9 @@ const CreateBook = (props) => {
               _id: block._id,
               decisions: block.decisions?.map((decision) => {
                 let decisionPath = bookToEdit.blocks.find(block => block.title === decision.toBlock);
-
+                if(!decisionPath) {
+                  console.log(decision);
+                }
                 return {
                   ...decision,
                   toBlock: decisionPath._id,
