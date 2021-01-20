@@ -15,7 +15,7 @@ router.get('/user/:id/favourite-books', (request, response) => {
   User.findById(id)
     .populate('favouriteBooks')
     .then((user) => {
-      response.status(201).json(user.favouriteBooks);
+      response.status(201).json(user);
     })
     .catch(throwError(response));
 });

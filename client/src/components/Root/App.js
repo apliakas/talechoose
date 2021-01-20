@@ -44,7 +44,7 @@ function App() {
             <Switch>
               <Route path='/books' render={() => <BookList user={user} />} />
               <Route path='/book/create' exact component={CreateBook} />
-              <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user} />} />
+              <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user} setUser={setUser} />} />
               <Route path='/user/books' render={({history}) => <UserBooks history={history} user={user} />} />
               <Route path='/book/editBook/:id' render={({match, history}) => <CreateBook history={history} match={match} user={user} edit={true} />} />
               <Route path='/user/favourite-books' render={() => <FavBooks user={user} /> } />

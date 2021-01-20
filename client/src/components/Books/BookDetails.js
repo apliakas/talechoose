@@ -7,7 +7,7 @@ import './BookDetails.scss';
 
 const BookDetails = (props) => {
   const [book, setBook] = useState({});
-  const [bookInFavBooks, setIsBookInFavBooks] = useState(false)
+  const [bookInFavBooks, setIsBookInFavBooks] = useState(true);
 
   const getBook = () => {
     const { id } = props.match.params;
@@ -16,8 +16,6 @@ const BookDetails = (props) => {
       .getById(id)
       .then((bookDetails) => {
         setBook(bookDetails);
-        setIsBookInFavBooks(props.user?.favouriteBooks.includes(book._id))
-        console.log('getBook', bookInFavBooks)
       })
       .catch((err) => console.log(err));
   };
@@ -34,19 +32,17 @@ const BookDetails = (props) => {
   };
 
   const addFavourites = () => {
-    console.log('addFavourites', bookInFavBooks)
     const user = props.user;
     const updatedUser = { ...user, favouriteBooks: user.favouriteBooks.concat([book._id])}
     
     User.update(user._id, updatedUser)
       .then((user) => console.log('The book has been added to your favourites'))
       .catch((err) => console.log(err));
-    
-    setIsBookInFavBooks(updatedUser.favouriteBooks.includes(book._id))
+
+    props.setUser(updatedUser);
   };
 
   const removeFavourites = () => {
-    console.log('removeFavourites', bookInFavBooks)
     const user = props.user;
     const updatedUser = { ...user, favouriteBooks: user.favouriteBooks.filter((favBook) => favBook !== book._id)}
     
@@ -54,10 +50,15 @@ const BookDetails = (props) => {
       .then((user) => console.log('The book has been deleted from your favourites'))
       .catch((err) => console.log(err));
 
-    setIsBookInFavBooks(updatedUser.favouriteBooks.includes(book._id))
+    props.setUser(updatedUser);
   };
 
   useEffect(getBook, []);
+  useEffect(() => {
+    if (props.user?.favouriteBooks && book) {
+      setIsBookInFavBooks(props.user.favouriteBooks.includes(book._id));
+    }
+  }, [props.user, book]);
 
   return (
     <div className="book-container">

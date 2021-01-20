@@ -10,8 +10,8 @@ const FavBooks = (props) => {
     const userId = props.user._id;
     
     User.getFavouriteBooks(userId)
-      .then((favBooks) => {
-        setFavouriteBooks(favBooks)})
+      .then((user) => {
+        setFavouriteBooks(user.favouriteBooks)})
       .catch((err) => console.log(err));
   }
 
