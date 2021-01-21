@@ -31,11 +31,12 @@ const UserBooks = (props) => {
       deleteBook(book._id)
     } else {
       console.log('something')
-    }
-  }
+    };
+  };
 
   return (
     <div className='mt-6 columns is-flex is-flex-wrap-wrap'>
+
       {userBooks.map((book) => (
         <div className='column is-6 has-text-centered'>
           <div className='box border-gray mb-3' key={book._id}>
@@ -43,6 +44,7 @@ const UserBooks = (props) => {
             <h1 className='is-size-3'>{book.title} { book.public ? '🔓' : '🔒' }</h1>
             </Link>
           </div>
+
           { props.user && book.owner === props.user._id && (
             <div>
               <button className='button is-danger is-light ml-3' onClick={() => confirmDeleteBook(book)}>
@@ -51,8 +53,10 @@ const UserBooks = (props) => {
               <Link className='button is-success is-light ml-3' to={`/book/editBook/${book._id}`}>Edit Book</Link>
             </div>
           )}
+
         </div>
       ))}
+
     </div>
   );
 };

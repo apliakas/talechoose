@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Books from '../../services/books.service';
 
-const BookList = (props) => {
+const PublicBooks = (props) => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
 
@@ -45,4 +45,4 @@ const BookList = (props) => {
   );
 };
 
-export default BookList;
+export default PublicBooks;

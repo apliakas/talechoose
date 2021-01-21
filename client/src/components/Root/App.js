@@ -6,8 +6,8 @@ import Auth from '../../services/auth.service';
 import './App.scss';
 
 import Navbar from '../Navbar/Navbar';
-import BookList from '../Books/BookList';
-import CreateBook from '../Books/CreateBook';
+import PublicBooks from '../Books/PublicBooks';
+import EditAndCreateBook from '../Books/EditAndCreateBook';
 import BookDetails from '../Books/BookDetails';
 import UserBooks from '../Books/UserBooks';
 import Signup from '../Auth/Signup';
@@ -42,16 +42,16 @@ function App() {
           </Switch>
           { user ? (
             <Switch>
-              <Route path='/books' render={() => <BookList user={user} />} />
-              <Route path='/book/create' exact component={CreateBook} />
+              <Route path='/books' render={() => <PublicBooks user={user} />} />
+              <Route path='/book/create' exact component={EditAndCreateBook} />
               <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user} setUser={setUser} />} />
               <Route path='/user/books' render={({history}) => <UserBooks history={history} user={user} />} />
-              <Route path='/book/editBook/:id' render={({match, history}) => <CreateBook history={history} match={match} user={user} edit={true} />} />
+              <Route path='/book/editBook/:id' render={({match, history}) => <EditAndCreateBook history={history} match={match} user={user} edit={true} />} />
               <Route path='/user/favourite-books' render={() => <FavBooks user={user} /> } />
             </Switch>
           ) : (
             <Switch>
-              <Route path='/books' component={BookList} />
+              <Route path='/books' component={PublicBooks} />
               <Route path='/signup' render={({ history}) => <Signup history={history} setUser={setUser} />} />
               <Route path='/login' render={({ history}) => <Login history={history} setUser={setUser} />} />
               <Route path='/book/read/:id' exact component={BookDetails} />
