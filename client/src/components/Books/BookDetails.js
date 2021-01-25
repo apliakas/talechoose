@@ -54,6 +54,7 @@ const BookDetails = (props) => {
   };
 
   useEffect(getBook, []);
+
   useEffect(() => {
     if (props.user?.favouriteBooks && book) {
       setIsBookInFavBooks(props.user.favouriteBooks.includes(book._id));
@@ -81,7 +82,7 @@ const BookDetails = (props) => {
             <p className='has-text-justified my-5' dangerouslySetInnerHTML={{__html: block.content}}></p>
             {!block.decisions?.length && (<h3>The End</h3>)}
             {(book.blocks.length === index + 1) && block.decisions?.map((decision) => (
-              <button className='button is-info m-3' key={`${decision._id}-${index}`} type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
+              <button className='button is-info m-3 is-multiline' key={`${decision._id}-${index}`} type='button' onClick={() => getBlock(decision.toBlock)}>{decision.option}</button>
             ))}
           </div>
         )
