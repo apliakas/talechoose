@@ -22,7 +22,8 @@ You can create one of those stories and have it private or public. You can also 
 
 ## Installation
 
-Change the name of the .env.example to .env and fill the necessary fields inside, then run the app with the code below.
+Create a .env file using the .env.example file and fill the necessary fields inside. 
+Then run the app with the second command below.
 
 ```bash
 cp server/.env.example server/.env
