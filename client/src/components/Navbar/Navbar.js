@@ -9,7 +9,7 @@ import './Navbar.scss';
 import logo from '../../static/logo.svg';
 
 const Navbar = (props) => {
-  const [isActive, setisActive] = useState(false);
+  const [isActive, setIsActive] = useState(false);
 
   const history = useHistory();
 
@@ -30,7 +30,7 @@ const Navbar = (props) => {
         </Link>
 
         <a onClick={() => {
-              setisActive(!isActive)
+              setIsActive(!isActive)
             }}
             role="button" 
             className={`navbar-burger burger ${isActive ? 'is-active' : ''}`} 

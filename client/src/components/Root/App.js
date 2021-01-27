@@ -6,7 +6,7 @@ import Auth from '../../services/auth.service';
 import './App.scss';
 
 import Navbar from '../Navbar/Navbar';
-import PublicBooks from '../Books/PublicBooks';
+import BooksList from '../Books/BooksList';
 import BookForm from '../Books/BookForm';
 import BookDetails from '../Books/BookDetails';
 import UserBooks from '../Books/UserBooks';
@@ -42,16 +42,16 @@ function App() {
           </Switch>
           { user ? (
             <Switch>
-              <Route path='/books' render={() => <PublicBooks user={user} />} />
+              <Route path='/books' render={({match}) => <BooksList publicBooks={true} match={match} user={user} />} />
               <Route path='/book/create' exact component={BookForm} />
               <Route path='/book/read/:id' exact render={({match, history}) => <BookDetails history={history} match={match} user={user} setUser={setUser} />} />
-              <Route path='/user/books' render={({history}) => <UserBooks history={history} user={user} />} />
-              <Route path='/book/editBook/:id' render={({match, history}) => <BookForm history={history} match={match} user={user} edit={true} />} />
-              <Route path='/user/favourite-books' render={() => <FavBooks user={user} /> } />
+              <Route path='/user/books' render={({match, history}) => <BooksList userBooks={true} match={match} history={history} user={user} />} />
+              <Route path='/book/editBook/:id' render={({match, history}) => <BookForm history={history} match={match} user={user} />} />
+              <Route path='/user/favourite-books' render={({match}) => <BooksList favBooks={true} match={match} user={user} /> } />
             </Switch>
           ) : (
             <Switch>
-              <Route path='/books' component={PublicBooks} />
+              <Route path='/books' component={BooksList} />
               <Route path='/signup' render={({ history}) => <Signup history={history} setUser={setUser} />} />
               <Route path='/login' render={({ history}) => <Login history={history} setUser={setUser} />} />
               <Route path='/book/read/:id' exact component={BookDetails} />

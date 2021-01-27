@@ -36,7 +36,7 @@ const BookDetails = (props) => {
     const updatedUser = { ...user, favouriteBooks: user.favouriteBooks.concat([book._id])}
     
     User.update(user._id, updatedUser)
-      .then((user) => console.log('The book has been added to your favourites'))
+      .then(() => console.log('The book has been added to your favourites'))
       .catch((err) => console.log(err));
 
     props.setUser(updatedUser);
@@ -47,7 +47,7 @@ const BookDetails = (props) => {
     const updatedUser = { ...user, favouriteBooks: user.favouriteBooks.filter((favBook) => favBook !== book._id)}
     
     User.update(user._id, updatedUser)
-      .then((user) => console.log('The book has been deleted from your favourites'))
+      .then(() => console.log('The book has been deleted from your favourites'))
       .catch((err) => console.log(err));
 
     props.setUser(updatedUser);

@@ -8,7 +8,7 @@ const request = axios.create({
 const user = {};
 
 user.getFavouriteBooks = (userId) => {
-  return request.get(`/user/${userId}/favourite-books`).then((response) => response.data);
+  return request.get(`/user/${userId}/favourite-books`).then((response) => response.data.favouriteBooks);
 };
 
 user.update = (userId, updatedUser) => {

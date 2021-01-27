@@ -11,11 +11,11 @@ const FavBooks = (props) => {
     
     User.getFavouriteBooks(userId)
       .then((user) => {
-        setFavouriteBooks(user.favouriteBooks)})
+        setFavouriteBooks(user)})
       .catch((err) => console.log(err));
-  }
+  };
 
-  useEffect(getFavouriteBooks, [])
+  useEffect(getFavouriteBooks, []);
 
   return (
     <div className='mt-6'>
