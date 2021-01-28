@@ -64,7 +64,7 @@ const BookDetails = (props) => {
   return (
     <div className="book-container">
       <h3 className='has-text-centered is-size-1'>{book.title}</h3>
-      { bookInFavBooks ? <button className='button is-small' onClick={removeFavourites} >Delete book from favourites</button> : <button className='button is-small' onClick={addFavourites} >Add book to favourites</button>} 
+      { bookInFavBooks ? <div className='buttons is-right'><button className='button is-small is-warning is-light' onClick={removeFavourites} >Delete book from favourites</button></div> : <div className='buttons is-right'><button className='button is-small is-warning is-light' onClick={addFavourites} >Add book to favourites </button></div>} 
       {book.information && Object.entries(book.information).length && (
         <details  className='help mb-4' open>
           <summary className='pl-2 is-size-6 mb-2'>About this book</summary>
