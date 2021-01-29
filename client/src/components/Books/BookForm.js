@@ -234,15 +234,11 @@ const BookForm = (props) => {
     <div>
       <div className='is-flex is-justify-content-space-between'>
         <button className='button mt-2 is-primary is-outlined'onClick={() => editMode ? props.history.push('/user/books') : props.history.push('/books')}> ᐸ Go back</button>
-        <div className='mt-2 is-flex is-align-items-center'>
-          <h2 className='mr-3'>Visibility of the book:</h2>
-          <div className='switch is-flex is-align-items-center'>
-            <input checked={book.public} onChange={changeVisibility} className='checkboxPublic' id='visibility' type='checkbox'></input>
-            <label className='visibility px-3 py-2' for='visibility' >Public</label>
-            <label className='visibility px-3 py-2' for='visibility' >Private</label>
-          </div>
+        <div className='mt-2 switch is-flex is-align-items-center'>
+          <input checked={book.public} onChange={changeVisibility} className='checkboxPublic' id='visibility' type='checkbox'></input>
+          <label className='visibility px-3 py-2' for='visibility' >Public</label>
+          <label className='visibility px-3 py-2' for='visibility' >Private</label>
         </div>
-        
       </div>
       
       <h1 className='is-size-3 has-text-centered mt-2'>{ editMode ? `Editing ${book.title}` : 'Your adventure starts here...' }</h1>

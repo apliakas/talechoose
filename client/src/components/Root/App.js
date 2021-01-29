@@ -9,12 +9,10 @@ import Navbar from '../Navbar/Navbar';
 import BooksList from '../Books/BooksList';
 import BookForm from '../Books/BookForm';
 import BookDetails from '../Books/BookDetails';
-import UserBooks from '../Books/UserBooks';
 import Signup from '../Auth/Signup';
 import Login from '../Auth/Login';
 import Home from './Home'
 import Footer from '../Footer/Footer';
-import FavBooks from '../Books/FavBooks';
 
 const isUserAuthenticated = (setUser) => {
   Auth

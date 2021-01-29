@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Books from '../../services/books.service';
 import User from '../../services/user.service';
 
-//
+//This component includes the code for the pages Favourite Books, User Books and Public Books.
 const BooksList = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [books, setBooks] = useState([]);
