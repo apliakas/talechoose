@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import Books from '../../services/books.service';
 import User from '../../services/user.service';
 
-//This component includes the code for the pages Favourite Books, User Books and Public Books.
+//This component includes the code for the mapped routes Public Books, Favourite Books and User Books.
 const BooksList = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [books, setBooks] = useState([]);
 
-  //
+  // Triggered every time one of the mapped routes is requested to the aplication, this function is going to get  
+  // the corresponding books from the server for that page and store them on the 'books' state.
   const getBooks = () => {
     const userId = props.user?._id;
     
@@ -29,7 +30,13 @@ const BooksList = (props) => {
       .catch((err) => console.log(err));
   };
 
-  useEffect(getBooks, [props.match.params]);
+  // Every time the route changes and matches one of the 3 that use this component, the function getBooks 
+  // is gonna be triggered. Also every time this component is removed from the DOM, before doing so it will
+  // replace whatever is stored in the books state with an empty array.
+  useEffect(() => {
+    getBooks()
+    return () => { setBooks([]) }
+  }, [props.match.params]);
 
   const deleteBook = (id) => {
     Books 

@@ -12,6 +12,8 @@ const BookDetails = (props) => {
   const getBook = () => {
     const { id } = props.match.params;
 
+    // `Books.getById(<id>)` will only retrieve the book details and the first block, `getBlock`
+    // is used to load more blocks
     Books 
       .getById(id)
       .then((bookDetails) => {
@@ -20,6 +22,10 @@ const BookDetails = (props) => {
       .catch((err) => console.log(err));
   };
 
+  /**
+   * Retrieves a block from the book and adds it to its array of blocks (`book.blocks`)
+   * @param {string} title - Title of the block to load (`decision.toBlock`)
+   */
   const getBlock = (title) => {
     const { id } = props.match.params;
 
